@@ -23,7 +23,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Mingalaba</h1>
+      <h1 class="font-black">👋 Hi I'm Alpri</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -42,25 +42,30 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
+        I'm a new-grad software engineer who believes that thoughtful software
+        can empower people to achieve more. I am passionate about creating
+        software that people love using by grounding my work in problems people
+        face while looking at solutions in cutting-edge research for
+        inspiration.
       </p>
       <p>
-        Read the blog posts or check
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton> for more info.
+        I was a Grainger College of Engineering B.S. Computer Science student at
+        the University of Illinois at Urbana-Champaign (UIUC). While there I was
+        involved with the Philippine Student Association (PSA) and Reflections
+        Projections in web infrastructure and mentoring roles. I've also
+        previously taken innovation and entrepreneurship courses at Harvard
+        Extension School.
+      </p>
+      <p>
+        I'm currently a Software Engineer at HubSpot where I solve for problems
+        CMS developers face. While I'm not currently looking for new
+        opportunities, I'm always open to connecting via linkedin/alprielse and
+        alprielse@gmail.com!
       </p>
       {
         // only display if at least one social link is enabled
         socialCount > 0 && (
           <div class="social-wrapper">
-            <div class="social-links">Social Links:</div>
             <Socials />
           </div>
         )

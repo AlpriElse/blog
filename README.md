@@ -1,3 +1,9 @@
+Color Palete:
+
+Dark inspiration
+https://colorhunt.co/palette/fff7f1ffe4c9e78895bed1cf
+https://colorhunt.co/palette/0c2d57fc6736ffb0b0efecec
+
 # AstroPaper 📄
 
 ![AstroPaper](public/astropaper-og.jpg)
