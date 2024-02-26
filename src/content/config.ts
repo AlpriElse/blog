@@ -20,7 +20,8 @@ const blog = defineCollection({
         .optional(),
       description: z.string(),
       canonicalURL: z.string().optional(),
+      hidden: z.boolean().optional().default(true),
     }),
 });
 
-export const collections = { blog };
+export const collections = { "blog-fixtures": blog, blog };
