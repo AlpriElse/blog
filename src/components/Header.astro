@@ -2,7 +2,6 @@
 import { LOGO_IMAGE, SITE } from "@config";
 import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
-import { hasContentInActiveCollection } from "@utils/getActiveCollection";
 
 export interface Props {
   activeNav?: "posts" | "tags" | "search";
@@ -57,7 +56,7 @@ const { activeNav } = Astro.props;
         </button>
         <ul id="menu-items" class="display-none sm:flex">
           {
-            (await hasContentInActiveCollection()) && (
+            (
               <>
                 <li>
                   <a

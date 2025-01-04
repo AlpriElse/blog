@@ -8,9 +8,9 @@ import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SOCIALS } from "@config";
-import { getActiveCollection } from "../utils/getActiveCollection";
+import { getCollection } from "astro:content";
 
-const posts = await getActiveCollection();
+const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
@@ -46,25 +46,22 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         )
       }
       <p>
-        I'm a new-grad software engineer who believes that thoughtful software
-        can empower people to achieve more. I am passionate about creating
-        software that people love using by grounding my work in problems people
-        face while looking at solutions in cutting-edge research for
-        inspiration.
+        I'm a software engineer who believes that thoughtful software can
+        empower people to achieve more. I am passionate about creating software
+        that people love using by grounding my work in problems people face
+        while looking at solutions in cutting-edge research for inspiration.
       </p>
       <p>
-        I was a Grainger College of Engineering B.S. Computer Science student at
-        the University of Illinois at Urbana-Champaign (UIUC). While there I was
-        involved with the Philippine Student Association (PSA) and Reflections
-        Projections in web infrastructure and mentoring roles. I've also
-        previously taken innovation and entrepreneurship courses at Harvard
-        Extension School.
+        I studied Computer Science at the University of Illinois at
+        Urbana-Champaign (UIUC). While there I was involved with the Philippine
+        Student Association (PSA) and Reflections Projections in web
+        infrastructure and mentoring roles. I've also previously taken Computer
+        Vision and entrepreneurship courses at Harvard Extension School.
       </p>
       <p>
-        I'm currently a Software Engineer at HubSpot where I solve for problems
-        CMS developers face. While I'm not currently looking for new
-        opportunities, I'm always open to connecting via linkedin/alprielse and
-        alprielse@gmail.com!
+        I previously worked at HubSpot where I was a Software Engineer working
+        on 0-1 projects. I've stood up AWS Infrastructure from scratch and was a
+        founding engineer on an "AI Startup within a company" team at HubSpot.
       </p>
       {
         // only display if at least one social link is enabled
