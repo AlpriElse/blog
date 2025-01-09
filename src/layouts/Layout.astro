@@ -111,5 +111,17 @@ const socialImageURL = new URL(
   </head>
   <body>
     <slot />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MQ4CV2QRZC"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-MQ4CV2QRZC");
+    </script>
   </body>
 </html>
