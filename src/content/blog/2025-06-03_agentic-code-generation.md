@@ -72,5 +72,3 @@ Intuitively, we want to
 - Reduce the search space of potential solutions Cursor or these other tools needs to search through
 - Reduce the amount we backtrack by reducing the delay between when a file change is made and when Composer receives the feedback that we’re not on the correct solution path
 - Reduce the number of files Cursor needs to edit to arrive at our solution (aka reduce the “height” of our CSP Tree) . This roughly maps to the good ol’ principle of building software with “low coupling and high cohesion”.
-
-In a follow-up article, I’ll talk through a lot of patterns I’ve found successful.
