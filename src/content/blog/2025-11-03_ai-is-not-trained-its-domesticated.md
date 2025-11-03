@@ -10,7 +10,7 @@ tags:
   - micro-blog
 ---
 
-We don’t _teach_ Large Language Models (LLMs) — we _evolve_ them. "Training" suggests we’re walking our models through a syllabus, but machine learning isn’t education. It's selective pressure. Every choice we make when designing a learning algorithm — the data, the architecture, the loss function — shapes an artificial environment our models adapt to. Once an LLM's base capabilities emerge, we redirect the pressure toward _alignemnt_ -- tuning its behavior to fit human preferences for helpfulness, honesty, and agreeableness.
+We don’t _teach_ Large Language Models (LLMs) — we _evolve_ them. "Training" suggests we’re walking our models through a syllabus, but machine learning isn’t education. It's selective pressure. Every choice we make when designing a learning algorithm — the data, the architecture, the loss function — shapes an artificial environment our models adapt to. Once an LLM's base capabilities emerge, we redirect the pressure toward _alignment_ -- tuning its behavior to fit human preferences for helpfulness, honesty, and agreeableness.
 
 This isn't just a biological metaphor -- it's a literal echo of our first experiments with selective pressure: domestication.
 
