@@ -4,6 +4,8 @@ pubDatetime: 2025-11-03T08:00:00.000Z
 title: AI Is Not Trained It's Domesticated
 slug: ai-is-not-trained-it-is-domesticated
 featured: true
+description: We don’t teach AI — we evolve it. “Training” suggests we’re walking an AI model through a syllabus, but machine learning isn’t education. It's selective pressure. Every choice we make when designing a learning algorithm — the data, the architecture, the loss function — shapes an artificial environment our models adapt to.
+
 tags:
   - micro-blog
 ---
