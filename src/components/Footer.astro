@@ -1,6 +1,7 @@
 ---
 import Hr from "./Hr.astro";
 import Socials from "./Socials.astro";
+import StyledLink from "./StyledLink.astro";
 
 const currentYear = new Date().getFullYear();
 
@@ -18,7 +19,11 @@ const { noMarginTop = false } = Astro.props;
     <div class="copyright-wrapper">
       <span>Copyright &#169; {currentYear}</span>
       <span class="separator">&nbsp;|&nbsp;</span>
-      <span>All rights reserved.</span>
+      <span
+        >Website built with <StyledLink
+          href="https://github.com/satnaing/astro-paper">astro-paper</StyledLink
+        ></span
+      >
     </div>
   </div>
 </footer>
@@ -38,6 +43,7 @@ const { noMarginTop = false } = Astro.props;
   }
   .copyright-wrapper {
     @apply my-2 flex flex-col items-center whitespace-nowrap sm:flex-row;
+    font-size: 0.9rem;
   }
   .separator {
     @apply hidden sm:inline;

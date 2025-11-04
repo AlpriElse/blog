@@ -3,7 +3,7 @@ author: Alpri Else
 pubDatetime: 2024-01-04T04:00:00.000Z
 title: Just get it to work
 slug: just-get-it-to-work
-featured: true
+featured: false
 ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
 description: Great Filters and Street Fighting Software Engineering
 tags:

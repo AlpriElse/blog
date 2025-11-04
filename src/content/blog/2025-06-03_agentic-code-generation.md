@@ -3,7 +3,7 @@ author: Alpri Else
 pubDatetime: 2025-06-03T08:00:00.000Z
 title: AI Coding Tools are Constraint Satisfaction Problem Solvers
 slug: ai-coding-tools-are-csp-solvers
-featured: true
+featured: false
 description: A mental model for using AI Coding tools like Cursor—rooted in CSPs and backtracking—to explain why “Vibe Coding” often fails at scale and how engineers can use these tools more effectively by applying core software design principles.
 tags:
   - micro-blog

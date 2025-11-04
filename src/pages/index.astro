@@ -6,6 +6,7 @@ import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
+import StyledLink from "@components/StyledLink.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SOCIALS } from "@config";
 import { getCollection } from "astro:content";
@@ -13,7 +14,6 @@ import { getCollection } from "astro:content";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
@@ -45,20 +45,40 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           </a>
         )
       }
-      <p>
-        I'm an AIxSoftware builder that loves bridging UX with computer science
-        fundamentals and cutting-edge research.
+      <p class="mb-10">
+        I'm a founder building an AI product for non-technical users building
+        workflow automations. I'm currently interested in the intersection of
+        UX, Compilers, Programming Languages, and Code-generating LLMs.
       </p>
-      <p>
-        I studied Computer Science at the University of Illinois at
-        Urbana-Champaign (UIUC). While there I was involved with the Philippine
-        Student Association (PSA) and Reflections Projections in web
-        infrastructure and mentoring roles.
+      <p class="mb-10">
+        Previously, I worked at HubSpot where I was a Software Engineer mostly
+        working on 0-1 projects. While there, I worked on the <StyledLink
+          href="https://developers.hubspot.com/docs/cms/reference/hubl/overview"
+          >HubL</StyledLink
+        > proprietary templating language for the HubSpot CMS, built a language escape
+        hatch for developers to build using React within the HubSpot CMS &#8203;
+        (<StyledLink
+          href="https://developers.hubspot.com/docs/cms/start-building/introduction/react-plus-hubl/overview"
+          >CMS React</StyledLink
+        >), and worked on LLM tool use evaluation for <StyledLink
+          href="https://www.hubspot.com/products/artificial-intelligence"
+          >Breeze AI (fka ChatSpot)</StyledLink
+        >.
       </p>
-      <p>
-        I previously worked at HubSpot where I was a Software Engineer working
-        on 0-1 projects. I've stood up AWS Infrastructure from scratch and was a
-        founding engineer on an "AI Startup within a company" team at HubSpot.
+      <p class="mb-10">
+        Even further still, I studied Computer Science at the University of
+        Illinois at Urbana-Champaign (UIUC). Back then, I led the team that
+        built the <StyledLink
+          href="https://github.com/ReflectionsProjections/rp2019"
+          >Reflections | Projections 2019 website</StyledLink
+        >, built the website and app for the Philippine Student Association's
+        FACT Conference, and built multiple failed student-facing products: <StyledLink
+          href="https://github.com/Stutive">Stutive</StyledLink
+        >, <StyledLink href="https://github.com/AlpriElse/schedule-scope"
+          >schedule-scope</StyledLink
+        >, and <StyledLink href="https://github.com/AlpriElse/presenting-illini"
+          >Presenting Illini</StyledLink
+        >.
       </p>
       {
         // only display if at least one social link is enabled
@@ -71,26 +91,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     </section>
 
     <Hr />
-
-    {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured">
-            <h2>Featured</h2>
-            <ul>
-              {featuredPosts.map(({ data, slug }) => (
-                <Card
-                  href={`/posts/${slug}/`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-            </ul>
-          </section>
-          {recentPosts.length > 0 && <Hr />}
-        </>
-      )
-    }
 
     {
       recentPosts.length > 0 && (
@@ -116,7 +116,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       posts.length > 0 && (
         <div class="all-posts-btn-wrapper">
           <LinkButton href="/posts/">
-            All Posts
+            All posts
             <svg xmlns="http://www.w3.org/2000/svg">
               <path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z" />
             </svg>
