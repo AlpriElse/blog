@@ -1,0 +1,16 @@
+---
+export interface Props {
+  href: string;
+  class?: string;
+}
+
+const { href, class: className = "" } = Astro.props;
+---
+
+<a
+  href={href}
+  class={`inline-block font-normal text-skin-accent underline decoration-dashed underline-offset-4 ${className}`}
+  target="_blank"
+>
+  <slot />
+</a>
