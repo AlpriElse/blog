@@ -28,6 +28,9 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
           <h3 {...headerProps}>{title}</h3>
         )}
       </a>
+      <span className="text-sm text-gray-500 m-1 front-light italic">
+        {frontmatter.tags.map(tag => `#${tag}`).join(", ")}
+      </span>
       <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
     </li>
   );
