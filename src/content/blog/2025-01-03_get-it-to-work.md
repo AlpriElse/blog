@@ -1,6 +1,6 @@
 ---
 author: Alpri Else
-pubDatetime: 2024-01-04T04:00:00.000Z
+pubDatetime: 2025-01-04T04:00:00.000Z
 title: Just get it to work
 slug: just-get-it-to-work
 featured: false

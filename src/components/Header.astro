@@ -118,6 +118,10 @@ const { activeNav } = Astro.props;
   #skip-to-content {
     @apply absolute -top-full left-16 z-50 bg-skin-accent px-3 py-2 text-skin-inverted transition-all focus:top-4;
   }
+  header {
+    @apply sticky top-0 z-40 bg-skin-fill;
+    transition: background-color 0.3s ease;
+  }
   .nav-container {
     @apply mx-auto flex max-w-3xl flex-col items-center justify-between sm:flex-row;
   }
