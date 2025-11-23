@@ -86,7 +86,7 @@ export default (post: CollectionEntry<"blog" | "blog-fixtures">) => {
             </span>
 
             <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-              {SITE.title}
+              alprielse.xyz
             </span>
           </div>
         </div>
