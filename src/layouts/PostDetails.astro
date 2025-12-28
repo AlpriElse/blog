@@ -53,7 +53,7 @@ const layoutProps = {
     <div class="progress-bar h-1 w-0 bg-skin-accent" id="myBar"></div>
   </div> -->
 
-  <div class="mx-auto flex w-full max-w-4xl justify-start px-2">
+  <div class="flex w-full md:mx-auto md:max-w-4xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
       onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"
@@ -65,7 +65,7 @@ const layoutProps = {
       </svg><span>Go back</span>
     </button>
   </div>
-  <main id="main-content">
+  <main id="main-content" class="w-full md:mx-auto md:max-w-4xl px-4 pb-12">
     <h1 transition:name={slugifyStr(title)} class="post-title">{title}</h1>
     <Datetime
       pubDatetime={pubDatetime}
@@ -73,7 +73,11 @@ const layoutProps = {
       size="lg"
       className="my-2"
     />
-    <article id="article" role="article" class="prose mx-auto mt-8 max-w-4xl">
+    <article
+      id="article"
+      role="article"
+      class="prose mt-8 max-w-none md:mx-auto md:max-w-4xl"
+    >
       <Content />
     </article>
 
@@ -127,9 +131,6 @@ const layoutProps = {
 </Layout>
 
 <style>
-  main {
-    @apply mx-auto w-full max-w-4xl px-4 pb-12;
-  }
   .post-title {
     @apply text-2xl font-semibold text-skin-accent;
   }
