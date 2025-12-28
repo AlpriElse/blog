@@ -9,9 +9,9 @@ tags:
   - micro-blog
 ---
 
-Notion is my preferred tool for manipulating tabular data because of its clean UX. In the past, the most time consuming part of using Notion has been structuring data into a Notion Database. Notion has a great built-in CSV file importer that lets you cleanly map a CSV's columns to Notion Property Types, but I've found that even getting a cleanly formatted CSV file to be time consuming.
+Notion is my preferred tool for manipulating tabular data because of its clean UX. The most time consuming part of using Notion has been structuring data into a Notion Database. Notion has a great built-in CSV file importer that lets you cleanly map a CSV's columns to Notion Property Types, but I've found that even getting a cleanly formatted CSV file to be time consuming.
 
-Surprisingly, it turns out Cursor (and Claude Code) are a great way of getting data into Notion. And I've used this setup for everything from vacation planning to sales prospecting to even hacky evaluations on AI prompts and models.
+It turns out Cursor (and Claude Code) are a great way of getting data into Notion. And I've used this setup for everything from vacation planning to sales prospecting to even hacky evaluations on AI prompts and models.
 
 Cursor and Claude Code are both tools featuring AI Coding Agents intended for developers building software. But the same AI Coding Agents are also great at writing throwaway scripts for pulling data down from APIs, cleanly formatting the data, and uploading it into a Notion Database.
 
@@ -37,7 +37,7 @@ The rest of this post describes how to get Notion set up so you can programatica
 **Table of Contents**
 
 - [Use Case #1: Hiking Planning](#use-case-1-hiking-planning)
-- [Use Case #2: Sales Prospecting](#use-case-2-sales-prospecting)
+- [Use Case #2: External API Data (Sales Prospecting)](#use-case-2-external-api-data-sales-prospecting)
 - [Use Case #3: Evaluating AI Prompts and Models](#use-case-3-evaluating-ai-prompts-and-models)
 - [Notion Internal Integration Setup](#notion-setup)
 - [Caveats](#caveats)
@@ -65,7 +65,7 @@ It takes some back and forth with Cursor to get the right mapping from the pictu
 
 ![Hiking Data within Notion](/images/2025-12-27/hiking-notion.png)
 
-## Use Case #2: Sales Prospecting
+## Use Case #2: External API Data (Sales Prospecting)
 
 One of the tricks I've used for Sales Prospecting is using Google X-Ray searches. Among other things, it let's you restrict the domain you're searching against.
 
@@ -109,6 +109,12 @@ This is admittedly a tortured example, so here are much better alternatives for 
 - [Prompt Layer](https://www.promptlayer.com/)
 - [Langfuse](https://langfuse.com/docs/prompt-management/overview)
 
+## Caveats
+
+Notion has its own MCP Server with tools that cover most of the basic functionality you might want: https://developers.notion.com/docs/mcp-supported-tools. Depending on your use case, you might be better off connecting the Notion MCP to your regular ChatGPT / Claude account without reaching for a developer-facing product like Cursor or Claude Code.
+
+If you're planning to use the Notion SDK, Notion has a [rate limit of ~3 requests/second](https://developers.notion.com/reference/request-limits#rate-limits) and currently doesn't have a bulk Page Create API (see [Page Create API here](https://developers.notion.com/reference/post-page)), so you'll want to Rate Limit your API requests by using something like [ratelimit-js](https://github.com/upstash/ratelimit-js). For non-technical folks reading this, it's usually sufficient to prompt Cursor/Claude Code to rate limit requests without intervention.
+
 ## Notion Setup
 
 This section is on setting up Notion if you want to use the Notion SDK approach. If you just want to upload CSV into a Notion Database, you don't need to do this.
@@ -143,9 +149,3 @@ Within the page we want to manipulate, we go into the Page Settings then "Connec
 ![Notion Page Connection Settings Screenshot](/images/2025-12-27/notion-page-connection.png)
 
 You're now good to go. Make sure to feed this page's URL into the Cursor prompt so it knows where to create a new database for your data upload.
-
-## Caveats
-
-Notion has its own MCP Server with tools that cover most of the basic functionality you might want: https://developers.notion.com/docs/mcp-supported-tools. Depending on your use case, you might be better off connecting the Notion MCP to your regular ChatGPT / Claude account without reaching for a developer-facing product like Cursor or Claude Code.
-
-If you're planning to use the Notion SDK, Notion has a [rate limit of ~3 requests/second](https://developers.notion.com/reference/request-limits#rate-limits) and currently doesn't have a bulk Page Create API (see [Page Create API here](https://developers.notion.com/reference/post-page)), so you'll want to Rate Limit your API requests by using something like [ratelimit-js](https://github.com/upstash/ratelimit-js). For non-technical folks reading this, it's usually sufficient to prompt Cursor/Claude Code to rate limit requests without intervention.
