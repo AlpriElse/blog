@@ -36,6 +36,15 @@
     display: block;
   }
 
+  html,
+  body {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
   body {
     @apply flex min-h-[100svh] flex-col bg-skin-fill font-mono text-skin-base 
     selection:bg-skin-accent selection:bg-opacity-70 selection:text-skin-inverted;
