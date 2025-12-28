@@ -1,8 +1,8 @@
 ---
 author: Alpri Else
 pubDatetime: 2025-12-27T08:00:00.000Z
-title: "Importing Data into Notion Using Cursor"
-slug: importing-data-into-notion-with-cursor
+title: "Using Cursor for Importing Data into Notion"
+slug: using-cursor-for-importing-data-into-notion
 featured: false
 description: Notion has great UX for manipulating tabular data but getting data formatted into a Notion Database is time consuming. It turns out, using Cursor for writing throwaway data manipulation scripts is a great solution for this.
 tags:
@@ -131,6 +131,8 @@ From this page, create a new integration with Type "Internal".
 ![Notion New Integration Screenshot](/images/2025-12-27/notion-new-integration.png)
 
 Once you've created the integration, you can copy the "Internal Integration Secret" which we'll put into our `.env` in the directory we'll open with Cursor.
+
+![Notion Integration Secret Screenshot](/images/2025-12-27/notion-internal-integration-secret.png)
 
 **Enabling the Integration**
 
