@@ -46,11 +46,11 @@ The rest of this post describes how to get Notion set up so you can programatica
 
 I'm planning a Summer 2026 backpacking trip with some friends and picked up ["Backpacking Washington: Overnight and Multiday routes"](https://www.amazon.com/Backpacking-Washington-Overnight-Multi-Day-Routes/dp/1594851107) to get a curated list of recommendations and trail notes.
 
-<img src="/images/2025-12-27/hiking-book.png" alt="Backpacking Washington: Overnight and Multiday Routes Book" class="max-w-xl" />
+<img src="/images/2025-12-27/hiking-book.png" alt="Backpacking Washington: Overnight and Multiday Routes Book" class="md:max-w-xl" />
 
 Within the book is a great tabular index of all the hikes in the book, over 80 of them in total!
 
-<img src="/images/2025-12-27/hiking-list.png" alt="Hiking Book List of Hikes" class="max-w-3xl" />
+<img src="/images/2025-12-27/hiking-list.png" alt="Hiking Book List of Hikes" class="md:max-w-3xl" />
 
 I'm still using the physical book for its valuable trail notes, but I want to quickly filter down the list based on mileage and season while also collaborating on this selection process within Notion. Manually getting these into Notion would be painfully tedious, so I create a throwaway directory with pictures of all the pages with this table.
 
