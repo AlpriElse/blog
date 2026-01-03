@@ -5,8 +5,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "npm run build:sandbox && astro check && astro build && jampack ./dist",
-    "build:sandbox": "deno run --allow-read --allow-write --allow-run scripts/build-sandbox.ts",
-    "build:sandbox:clean": "deno run --allow-read --allow-write --allow-run scripts/build-sandbox.ts --clean",
+    "build:sandbox": "npx tsx scripts/build-sandbox.ts",
+    "build:sandbox:clean": "npx tsx scripts/build-sandbox.ts --clean",
     "build:main-only": "astro check && astro build && jampack ./dist",
     "preview": "astro preview",
     "sync": "astro sync",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@astrojs/react": "^3.0.9",
+    "tsx": "^4.7.0",
     "@astrojs/sitemap": "^3.0.5",
     "@astrojs/tailwind": "^5.1.0",
     "@divriots/jampack": "^0.23.2",

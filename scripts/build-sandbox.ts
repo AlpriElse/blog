@@ -1,7 +1,7 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write --allow-run
+#!/usr/bin/env npx tsx
 
 /**
- * Build Orchestration Script for Sandbox Projects (Deno)
+ * Build Orchestration Script for Sandbox Projects
  * 
  * This script:
  * 1. Discovers all projects in the `sandbox/` directory
@@ -10,22 +10,22 @@
  * 4. Copies the built output to `public/sandbox/<project-name>/`
  * 
  * Usage:
- *   deno task build:sandbox          # Build all projects
- *   deno task build:sandbox --clean  # Clean and rebuild
+ *   npx tsx scripts/build-sandbox.ts          # Build all projects
+ *   npx tsx scripts/build-sandbox.ts --clean  # Clean and rebuild
  */
 
-import { existsSync } from "https://deno.land/std@0.224.0/fs/exists.ts";
-import { copy } from "https://deno.land/std@0.224.0/fs/copy.ts";
-import { emptyDir } from "https://deno.land/std@0.224.0/fs/empty_dir.ts";
-import { walk } from "https://deno.land/std@0.224.0/fs/walk.ts";
-import { dirname, fromFileUrl, join } from "https://deno.land/std@0.224.0/path/mod.ts";
+import { existsSync, readdirSync, statSync, rmSync, mkdirSync, cpSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
 
-const __dirname = dirname(fromFileUrl(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const ROOT_DIR = join(__dirname, "..");
 const SANDBOX_DIR = join(ROOT_DIR, "sandbox");
 const OUTPUT_DIR = join(ROOT_DIR, "public", "sandbox");
 
-const args = Deno.args;
+const args = process.argv.slice(2);
 const shouldClean = args.includes("--clean");
 const isVerbose = args.includes("--verbose") || args.includes("-v");
 
@@ -41,64 +41,56 @@ function log(message: string, type: LogType = "info") {
   console.log(`${prefix[type]} ${message}`);
 }
 
-async function exec(command: string[], cwd: string): Promise<void> {
+function exec(command: string, cwd: string): void {
   if (isVerbose) {
-    log(`Running: ${command.join(" ")}`, "info");
+    log(`Running: ${command}`, "info");
   }
   
-  const proc = new Deno.Command(command[0], {
-    args: command.slice(1),
+  execSync(command, {
     cwd,
-    stdout: "inherit",
-    stderr: "inherit",
+    stdio: isVerbose ? "inherit" : "pipe",
+    env: { ...process.env, FORCE_COLOR: "1" },
   });
-  
-  const { code } = await proc.output();
-  
-  if (code !== 0) {
-    throw new Error(`Command failed with exit code ${code}`);
-  }
 }
 
-async function getProjects(): Promise<string[]> {
+function getProjects(): string[] {
   if (!existsSync(SANDBOX_DIR)) {
     return [];
   }
   
-  const projects: string[] = [];
-  
-  for await (const entry of Deno.readDir(SANDBOX_DIR)) {
-    if (!entry.isDirectory) continue;
+  return readdirSync(SANDBOX_DIR).filter(name => {
+    const projectPath = join(SANDBOX_DIR, name);
+    if (!statSync(projectPath).isDirectory()) return false;
     
-    const projectPath = join(SANDBOX_DIR, entry.name);
-    const denoJson = join(projectPath, "deno.json");
-    const denoJsonc = join(projectPath, "deno.jsonc");
-    
-    if (existsSync(denoJson) || existsSync(denoJsonc)) {
-      projects.push(entry.name);
-    }
-  }
-  
-  return projects;
+    const packageJson = join(projectPath, "package.json");
+    return existsSync(packageJson);
+  });
 }
 
-async function cleanOutputDir(): Promise<void> {
+function cleanOutputDir(): void {
   if (existsSync(OUTPUT_DIR)) {
     log(`Cleaning ${OUTPUT_DIR}...`, "info");
-    await Deno.remove(OUTPUT_DIR, { recursive: true });
+    rmSync(OUTPUT_DIR, { recursive: true, force: true });
   }
 }
 
-async function buildProject(name: string): Promise<void> {
+function buildProject(name: string): void {
   const projectPath = join(SANDBOX_DIR, name);
+  const nodeModules = join(projectPath, "node_modules");
   const distDir = join(projectPath, "dist");
   const outputPath = join(OUTPUT_DIR, name);
 
   log(`Building: ${name}`, "info");
 
-  // Run deno task build
+  // Install dependencies if node_modules doesn't exist
+  if (!existsSync(nodeModules)) {
+    log(`  Installing dependencies...`, "info");
+    exec("npm install", projectPath);
+  }
+
+  // Run build
   log(`  Running build...`, "info");
-  await exec(["deno", "task", "build"], projectPath);
+  exec("npm run build", projectPath);
 
   // Check if dist exists
   if (!existsSync(distDir)) {
@@ -106,32 +98,32 @@ async function buildProject(name: string): Promise<void> {
   }
 
   // Ensure output directory exists
-  await Deno.mkdir(OUTPUT_DIR, { recursive: true });
+  mkdirSync(OUTPUT_DIR, { recursive: true });
 
   // Clean previous output for this project
   if (existsSync(outputPath)) {
-    await Deno.remove(outputPath, { recursive: true });
+    rmSync(outputPath, { recursive: true, force: true });
   }
 
   // Copy dist to public/sandbox/<name>
   log(`  Copying to ${outputPath}...`, "info");
-  await copy(distDir, outputPath);
+  cpSync(distDir, outputPath, { recursive: true });
 
   log(`  Done!`, "success");
 }
 
-async function main(): Promise<void> {
+function main(): void {
   console.log("\n\x1b[1m🔧 Building Sandbox Projects\x1b[0m\n");
 
   if (shouldClean) {
-    await cleanOutputDir();
+    cleanOutputDir();
   }
 
-  const projects = await getProjects();
+  const projects = getProjects();
 
   if (projects.length === 0) {
     log("No projects found in sandbox/ directory", "warn");
-    log("Create a project by adding a folder with a deno.json to sandbox/", "info");
+    log("Create a project by adding a folder with a package.json to sandbox/", "info");
     return;
   }
 
@@ -141,7 +133,7 @@ async function main(): Promise<void> {
 
   for (const name of projects) {
     try {
-      await buildProject(name);
+      buildProject(name);
       results.success.push(name);
     } catch (error) {
       log(`Failed to build ${name}: ${(error as Error).message}`, "error");
@@ -155,10 +147,10 @@ async function main(): Promise<void> {
   }
   if (results.failed.length > 0) {
     log(`Failed: ${results.failed.join(", ")}`, "error");
-    Deno.exit(1);
+    process.exit(1);
   }
 
   console.log(`\nProjects are available at /sandbox/<name>/\n`);
 }
 
-await main();
+main();
