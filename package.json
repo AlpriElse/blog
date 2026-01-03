@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build && jampack ./dist",
+    "build": "npm run build:sandbox && astro check && astro build && jampack ./dist",
+    "build:sandbox": "node scripts/build-sandbox.mjs",
+    "build:sandbox:clean": "node scripts/build-sandbox.mjs --clean",
+    "build:main-only": "astro check && astro build && jampack ./dist",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
