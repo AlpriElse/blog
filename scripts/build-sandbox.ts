@@ -49,15 +49,14 @@ async function exec(command: string[], cwd: string): Promise<void> {
   const proc = new Deno.Command(command[0], {
     args: command.slice(1),
     cwd,
-    stdout: isVerbose ? "inherit" : "piped",
-    stderr: isVerbose ? "inherit" : "piped",
+    stdout: "inherit",
+    stderr: "inherit",
   });
   
-  const { code, stderr } = await proc.output();
+  const { code } = await proc.output();
   
   if (code !== 0) {
-    const errorText = new TextDecoder().decode(stderr);
-    throw new Error(`Command failed: ${command.join(" ")}\n${errorText}`);
+    throw new Error(`Command failed with exit code ${code}`);
   }
 }
 
