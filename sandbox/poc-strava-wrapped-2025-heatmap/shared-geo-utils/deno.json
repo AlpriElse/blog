@@ -1,0 +1,12 @@
+{
+  "name": "shared-geo-utils",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./index.ts",
+    "./dem-utils": "./dem-utils.ts",
+    "./threejs-terrain": "./threejs-terrain.ts",
+    "./contour-utils": "./contour-utils.ts",
+    "./gpx-utils": "./gpx-utils.ts"
+  }
+}
+

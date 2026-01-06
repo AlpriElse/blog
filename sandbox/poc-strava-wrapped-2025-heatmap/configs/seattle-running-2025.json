@@ -1,0 +1,69 @@
+{
+  "name": "Seattle Running 2025",
+  "description": "Strava running heatmap for 2025 - Seattle area",
+  
+  "runsPreprocess": {
+    "dataDir": "./data/strava-export",
+    "outputPath": "./public/runs_2025.json",
+    "excludeActivityIds": [
+      "14594503781",
+      "15916278381"
+    ],
+    "bounds": {
+      "maxLat": 47.78,
+      "minLat": 47.23,
+      "maxLng": -121.96,
+      "minLng": -122.51
+    }
+  },
+  
+  "input": {
+    "activitiesJson": "public/runs_2025.json",
+    "demTiles": "data/seattle_dem",
+    "mbtiles": "data/osm-2020-02-10-v3.11_north-america_us-west.mbtiles"
+  },
+  
+  "output": {
+    "directory": "public",
+    "terrainFile": "terrain-data.json",
+    "contourFile": "contour-data.json",
+    "routesFile": "routes-data.json",
+    "landcoverFile": "landcover-data.json",
+    "footprintFile": "footprint-data.json"
+  },
+  
+  "landcover": {
+    "scale": 1.0
+  },
+  
+  "terrain": {
+    "paddingPercent": 0.1,
+    "maxDimension": 1024,
+    "targetResolution": 30,
+    "medianFilterRadius": 1,
+    "utmZone": 10,
+    "useConfigBounds": true
+  },
+  
+  "contours": {
+    "majorInterval": 100,
+    "minorInterval": 25,
+    "majorLineWidth": 1.5,
+    "minorLineWidth": 0.6,
+    "lineColor": [100, 85, 70]
+  },
+  
+  "viewer": {
+    "lighting": {
+      "color": "0xffddaa",
+      "intensity": 2,
+      "position": [0, 3, 0],
+      "angle": 45,
+      "penumbra": 0.5,
+      "decay": 1,
+      "distance": 8
+    },
+    "elevationScale": 0.23
+  }
+}
+
