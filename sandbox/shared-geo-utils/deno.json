@@ -1,0 +1,17 @@
+{
+  "name": "@blog/shared-geo-utils",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./index.ts",
+    "./dem-utils": "./dem-utils.ts",
+    "./threejs-terrain": "./threejs-terrain.ts",
+    "./contour-utils": "./contour-utils.ts",
+    "./gpx-utils": "./gpx-utils.ts"
+  },
+  "imports": {
+    "geotiff": "npm:geotiff@^2.1.3",
+    "proj4": "npm:proj4@^2.20.2",
+    "three": "npm:three@^0.170.0"
+  }
+}
+

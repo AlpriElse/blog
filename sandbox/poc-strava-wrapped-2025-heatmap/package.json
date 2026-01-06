@@ -1,0 +1,24 @@
+{
+  "name": "poc-strava-wrapped-2025-heatmap",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "preprocess": "deno run --allow-read --allow-write scripts/preprocess-runs.ts",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@mapbox/vector-tile": "^2.0.4",
+    "better-sqlite3": "^12.5.0",
+    "canvas": "^3.2.0",
+    "geotiff": "^2.1.3",
+    "pbf": "^4.0.1",
+    "proj4": "^2.20.2",
+    "sql.js": "^1.13.0",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.6"
+  }
+}
