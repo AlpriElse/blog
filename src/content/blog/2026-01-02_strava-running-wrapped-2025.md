@@ -1,6 +1,6 @@
 ---
 author: Alpri Else
-pubDatetime: 2025-12-27T08:00:00.000Z
+pubDatetime: 2026-01-06T08:00:00.000Z
 title: "Using Claude Code to Visualize All My Strava Runs from 2025"
 slug: claude-code-strava-running-wrapped-2025
 featured: false
@@ -12,6 +12,49 @@ tags:
 I ran my first marathon this past year.
 
 Over the holidays, I used Claude Code to visualize all my Strava running activities.
+
+<div class="iframe-wrapper">
+  <iframe 
+    id="strava-heatmap-embed"
+    width="100%" 
+    height="800" 
+    frameborder="0"
+    style="border: 1px solid #e5e7eb; border-radius: 8px; display: block;"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+  (function() {
+    const iframe = document.getElementById('strava-heatmap-embed');
+    const sandboxPath = '/sandbox/poc-strava-wrapped-2025-heatmap/';
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const iframeSrc = isLocalhost 
+      ? `http://localhost:5173${sandboxPath}`
+      : `https://alprielse.xyz${sandboxPath}`;
+    iframe.src = iframeSrc;
+  })();
+</script>
+
+<style>
+  .iframe-wrapper {
+    width: 100vw;
+    max-width: min(100vw, 1200px);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .iframe-wrapper iframe {
+    width: 100%;
+    max-width: 100%;
+  }
+</style>
 
 I’ve been using Claude Code for everything these days and when I discovered you can easily get an archive of all your Strava GPX activity tracks, I couldn’t help but get nerd sniped into doing a fun little data visualization project.
 
@@ -31,9 +74,11 @@ You can easily request to download an archive of all your Strava data. Using the
 
 On the next page, hit "Request Your Archive" and wait around until you get an email
 
-<img src="/images/2026-01-06/strava-email.png" alt="Screenshot of the Strava email with link to download an archive" class="md:max-w-xl" />
+<img src="/images/2026-01-06/strava-email.png" alt="Screenshot of the Strava email with link to download an archive" class="md:max-w-m" />
 
 When you unzip that archive, you'll get a folder with pretty much all the data Strava has on you, but there's really only two things we really want for visualizing all of our runs:
+
+<div class="mx-auto md:max-w-xl">
 
 ```
 /                         // strava-export folder
@@ -42,14 +87,17 @@ When you unzip that archive, you'll get a folder with pretty much all the data S
   activities.csv
 ```
 
+</div>
+
 All the `[activity id].gpx` files contain the actual GPS tracks of our runs while `activities.csv` contains all the metadata eg. activity type, distance, duration, etc.
 
 We'll need to transform the GPX files into a format that we could use to draw Segments in Three.Js and we'll need to use `activities.csv` to filter out activities we don't want to include in our visualization. In my case, that means filtering out activities aren't in Seattle and filtering out Hiking, Climbing, and Weight Training activities.
 
 ### Mapping Data
 
-_Elevation Data / Digital Elevation Model_
-I used this Digital Elevation Model (DEM) for Seattle that covers all of King County, Washington:
+**Elevation Data / Digital Elevation Model**
+
+I used this Digital Elevation Model (DEM) for Seattle that covers all of King County, Washington:  
 https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/WA_King_DEM_2016_8589/index.html
 
 Inside this dataset is a set of GeoTIFF DEM tiles.
@@ -58,12 +106,13 @@ Instead of having a single TIFF image representing the entire King County area, 
 
 Each GeoTIFF file is an image where each pixel encodes the elevation height at some point in our coordinate system covering Seattle. Since this particular dataset is collected using LIDAR, each pixel represents a ~3ft square area so it's relatively high-resolution.
 
-Here's another dataset that covers almost the entire globe, but it has a ~30m square resolution:
+Here's another dataset that covers almost the entire globe, but it has a ~30m square resolution:  
 https://portal.opentopography.org/raster?opentopoID=OTSRTM.082015.4326.1
 
 Because it's a lower resolution, in areas where elevation changes drastically like mountains or hills, you might see some weird banding artifacts when rendered in 3D. If this is the case, you'll have to play around with Claude Code to put in some smoothing logic that balances removing those banding artifacts while still retaining elevation detail.
 
-_Landcover and Landuse Data_
+**Landcover and Landuse Data**
+
 Landcover and landuse data is used for coloring our map with features like Parks, Residential Blocks, Lakes, and Forests.
 
 <img src="/images/2026-01-06/landcover.png" alt="Screenshot of map pointing out different landcover assigned colors." class="md:max-w-xl" />
