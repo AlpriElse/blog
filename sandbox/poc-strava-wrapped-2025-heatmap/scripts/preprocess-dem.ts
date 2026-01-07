@@ -508,7 +508,7 @@ async function main() {
   };
 
   // Generate elevation grid using clipped bounds
-  const terrainData = generateElevationGrid(tiles, clippedBounds, clippedUtmBounds, {
+  const terrainData = await generateElevationGrid(tiles, clippedBounds, clippedUtmBounds, {
     paddingEW: 0,
     paddingNS: 0,
     maxDimension: config.terrain.maxDimension,
