@@ -1,10 +1,10 @@
 ---
 author: Alpri Else
 pubDatetime: 2025-12-27T08:00:00.000Z
-title: "Using Claude Code to Visualize All My Strava Runs from 2025
+title: "Using Claude Code to Visualize All My Strava Runs from 2025"
 slug: claude-code-strava-running-wrapped-2025
 featured: false
-description: I ran my first marathon this past year. Over the holidays, I used Claude Code to visualize all my Strava running activities.   
+description: "I ran my first marathon this past year. Over the holidays, I used Claude Code to visualize all my Strava running activities."
 tags:
   - micro-blog
 ---
