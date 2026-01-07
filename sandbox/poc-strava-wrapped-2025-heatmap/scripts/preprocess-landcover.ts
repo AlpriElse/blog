@@ -321,20 +321,14 @@ async function main() {
   
   console.log(`Rendered ${renderedCount} polygons to texture`);
   
-  // Extract pixel data
-  const imageData = ctx.getImageData(0, 0, TEXTURE_RESOLUTION, TEXTURE_RESOLUTION);
-  const rgba = Array.from(imageData.data);
+  // Output as PNG image (much smaller than JSON pixel data)
+  const pngBuffer = canvas.toBuffer('image/png');
   
-  // Output texture data
-  const output = {
-    width: TEXTURE_RESOLUTION,
-    height: TEXTURE_RESOLUTION,
-    data: rgba
-  };
-
-  const outputPath = join(config.output.directory, config.output.landcoverFile);
-  writeFileSync(outputPath, JSON.stringify(output));
-  console.log(`\nWrote ${outputPath}`);
+  // Change file extension from .json to .png
+  const landcoverFile = config.output.landcoverFile.replace(/\.json$/, '.png');
+  const outputPath = join(config.output.directory, landcoverFile);
+  writeFileSync(outputPath, pngBuffer);
+  console.log(`\nWrote ${outputPath} (${(pngBuffer.length / 1024 / 1024).toFixed(2)} MiB)`);
 
   // Stats
   console.log('\nPolygons by type:');

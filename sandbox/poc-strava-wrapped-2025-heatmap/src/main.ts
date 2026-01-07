@@ -43,11 +43,6 @@ interface RoutesData {
   routes: { x: number; y: number }[][];
 }
 
-interface LandcoverTextureData {
-  width: number;
-  height: number;
-  data: number[];
-}
 
 
 // ============================================================================
@@ -101,25 +96,6 @@ scene.add(directionalLight);
 
 // Route line material
 let routeLineMaterial: LineMaterial | null = null;
-
-// ============================================================================
-// Texture Creation
-// ============================================================================
-
-function createLandcoverTexture(landcoverData: LandcoverTextureData): THREE.DataTexture {
-  const { width, height, data } = landcoverData;
-  const rgba = new Uint8Array(data);
-  
-  const texture = new THREE.DataTexture(rgba, width, height, THREE.RGBAFormat);
-  texture.flipY = true;
-  texture.needsUpdate = true;
-  texture.magFilter = THREE.LinearFilter;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
-  texture.generateMipmaps = true;
-  texture.colorSpace = THREE.SRGBColorSpace;
-  
-  return texture;
-}
 
 // ============================================================================
 // Ground Plane
@@ -331,14 +307,24 @@ async function init() {
 
     // Load landcover texture
     if (loadingEl) loadingEl.textContent = 'LOADING LANDCOVER...';
-    let landcoverTexture: THREE.DataTexture | null = null;
+    let landcoverTexture: THREE.Texture | null = null;
     try {
-      const landcoverResponse = await fetch('landcover-data.json');
-      if (landcoverResponse.ok) {
-        const landcoverData: LandcoverTextureData = await landcoverResponse.json();
-        landcoverTexture = createLandcoverTexture(landcoverData);
-        console.log(`Landcover texture: ${landcoverData.width}x${landcoverData.height}`);
-      }
+      const textureLoader = new THREE.TextureLoader();
+      landcoverTexture = await new Promise<THREE.Texture | null>((resolve) => {
+        textureLoader.load(
+          'landcover-data.png',
+          (texture: THREE.Texture) => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.magFilter = THREE.LinearFilter;
+            texture.minFilter = THREE.LinearMipmapLinearFilter;
+            texture.generateMipmaps = true;
+            console.log(`Landcover texture loaded: ${texture.image.width}x${texture.image.height}`);
+            resolve(texture);
+          },
+          undefined,
+          () => resolve(null) // Silently fail if texture not found
+        );
+      });
     } catch (e) {
       console.log('No landcover data available');
     }
