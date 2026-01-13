@@ -1,0 +1,47 @@
+{
+  "sandbox/poc-interactive-hiking-map/data/alta-via-1/w51070_s10.zip": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-interactive-hiking-map/data/alta-via-1/w51070_s10.zip",
+    "size": 86957494,
+    "uploadedAt": "2026-01-13T07:45:41.815Z"
+  },
+  "sandbox/poc-interactive-hiking-map/data/alta-via-1/w51075_s10.zip": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-interactive-hiking-map/data/alta-via-1/w51075_s10.zip",
+    "size": 87097141,
+    "uploadedAt": "2026-01-13T07:45:54.556Z"
+  },
+  "sandbox/poc-interactive-hiking-map/data/alta-via-1/w51570_s10.zip": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-interactive-hiking-map/data/alta-via-1/w51570_s10.zip",
+    "size": 85284845,
+    "uploadedAt": "2026-01-13T07:46:07.162Z"
+  },
+  "sandbox/poc-interactive-hiking-map/data/alta-via-1/w51575_s10.zip": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-interactive-hiking-map/data/alta-via-1/w51575_s10.zip",
+    "size": 44148105,
+    "uploadedAt": "2026-01-13T07:46:13.194Z"
+  },
+  "sandbox/poc-strava-wrapped-2025-heatmap/data/strava-export/media/179D5C67-7EE1-4545-A470-A8AD08CCA7BE.mp4": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-strava-wrapped-2025-heatmap/data/strava-export/media/179D5C67-7EE1-4545-A470-A8AD08CCA7BE.mp4",
+    "size": 26390397,
+    "uploadedAt": "2026-01-13T07:46:16.694Z"
+  },
+  "sandbox/poc-subtext/dist/examples/alex-ke/video.mp4": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-subtext/dist/examples/alex-ke/video.mp4",
+    "size": 171944648,
+    "uploadedAt": "2026-01-13T07:46:36.133Z"
+  },
+  "sandbox/poc-subtext/dist/examples/simon-kim/video.mp4": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-subtext/dist/examples/simon-kim/video.mp4",
+    "size": 79585939,
+    "uploadedAt": "2026-01-13T07:46:45.868Z"
+  },
+  "sandbox/poc-subtext/public/examples/alex-ke/video.mp4": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-subtext/public/examples/alex-ke/video.mp4",
+    "size": 171944648,
+    "uploadedAt": "2026-01-13T07:47:02.372Z"
+  },
+  "sandbox/poc-subtext/public/examples/simon-kim/video.mp4": {
+    "r2Url": "https://r2.alprielse.xyz/sandbox/poc-subtext/public/examples/simon-kim/video.mp4",
+    "size": 79585939,
+    "uploadedAt": "2026-01-13T07:47:11.730Z"
+  }
+}

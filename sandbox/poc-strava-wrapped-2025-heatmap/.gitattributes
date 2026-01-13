@@ -1,7 +1,0 @@
-public/routes-data.json filter=lfs diff=lfs merge=lfs -text
-public/runs_2025.json filter=lfs diff=lfs merge=lfs -text
-public/terrain-data.json filter=lfs diff=lfs merge=lfs -text
-public/contour-data.json filter=lfs diff=lfs merge=lfs -text
-public/footprint-data.json filter=lfs diff=lfs merge=lfs -text
-public/heightmap_routes.png filter=lfs diff=lfs merge=lfs -text
-public/landcover-data.json filter=lfs diff=lfs merge=lfs -text

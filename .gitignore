@@ -27,8 +27,19 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Large assets uploaded to R2 (see r2-manifest.json for URLs)
+# Videos
+sandbox/poc-subtext/public/examples/*/video.mp4
+public/sandbox/poc-subtext/examples/*/video.mp4
+sandbox/poc-strava-wrapped-2025-heatmap/data/strava-export/media/*.mp4
+# Zip files (terrain data)
+sandbox/poc-interactive-hiking-map/data/**/*.zip
+
 # ignore .astro directory
 .astro
+
+# wrangler local state
+.wrangler/
 
 # ignore Jampack cache files
 .jampack/

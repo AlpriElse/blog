@@ -1,5 +1,14 @@
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-public/sandbox/poc-subtext/assets/*.wasm filter=lfs diff=lfs merge=lfs -text
-public/sandbox/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
-public/sandbox/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+# Git LFS tracking for large binary files
+# Note: Large videos (>20MB) are uploaded to R2 and gitignored, so they don't need LFS
+
+# WASM files (onnxruntime, etc.)
+*.wasm filter=lfs diff=lfs merge=lfs -text
+
+# Large JSON data files in sandbox projects
+sandbox/poc-interactive-hiking-map/public/**/terrain-data.json filter=lfs diff=lfs merge=lfs -text
+sandbox/poc-interactive-hiking-map/public/**/contour-data.json filter=lfs diff=lfs merge=lfs -text
+sandbox/poc-interactive-hiking-map/public/**/track-data.json filter=lfs diff=lfs merge=lfs -text
+sandbox/poc-strava-wrapped-2025-heatmap/public/*.json filter=lfs diff=lfs merge=lfs -text
+
+# Built WASM assets
+public/sandbox/**/assets/*.wasm filter=lfs diff=lfs merge=lfs -text

@@ -8,6 +8,8 @@
     "build:sandbox": "npx tsx scripts/build-sandbox.ts",
     "build:sandbox:clean": "npx tsx scripts/build-sandbox.ts --clean",
     "build:main-only": "astro check && astro build && jampack ./dist",
+    "upload:r2": "npx tsx scripts/upload-r2-assets.ts",
+    "upload:r2:dry-run": "npx tsx scripts/upload-r2-assets.ts --dry-run",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",

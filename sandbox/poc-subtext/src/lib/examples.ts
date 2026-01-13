@@ -3,6 +3,15 @@ import type { VideoManifest } from '../types'
 // Get the base path from Vite's import.meta.env
 const BASE_PATH = import.meta.env.BASE_URL || '/'
 
+// R2 base URL for large assets (videos are served from R2 to avoid Cloudflare Pages size limits)
+const R2_BASE_URL = 'https://r2.alprielse.xyz'
+
+// Get video URL from R2
+function getVideoUrl(exampleBasePath: string): string {
+  // Videos are stored in R2 at: sandbox/poc-subtext/public/examples/<id>/video.mp4
+  return `${R2_BASE_URL}/sandbox/poc-subtext/public${exampleBasePath}/video.mp4`
+}
+
 export interface Example {
   id: string
   name: string
@@ -44,7 +53,7 @@ export interface LoadedExample {
 }
 
 export async function loadExample(example: Example): Promise<LoadedExample> {
-  // Construct full path with base URL
+  // Construct full path with base URL (for non-video assets)
   const fullBasePath = `${BASE_PATH}${example.basePath.replace(/^\//, '')}`
 
   // Load manifest
@@ -54,8 +63,9 @@ export async function loadExample(example: Example): Promise<LoadedExample> {
   }
   const manifest: VideoManifest = await manifestResponse.json()
 
-  // Load video
-  const videoResponse = await fetch(`${fullBasePath}/video.mp4`)
+  // Load video from R2
+  const videoUrl = getVideoUrl(example.basePath)
+  const videoResponse = await fetch(videoUrl)
   if (!videoResponse.ok) {
     throw new Error(`Failed to fetch example video: ${videoResponse.statusText}`)
   }
