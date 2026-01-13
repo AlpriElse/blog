@@ -29,6 +29,9 @@ const args = process.argv.slice(2);
 const shouldClean = args.includes("--clean");
 const isVerbose = args.includes("--verbose") || args.includes("-v");
 
+// Projects that are pre-built locally and committed (skip in CI due to resource constraints)
+const PREBUILT_PROJECTS = ["poc-subtext"];
+
 type LogType = "info" | "success" | "error" | "warn";
 
 function log(message: string, type: LogType = "info") {
@@ -132,6 +135,12 @@ function main(): void {
   const results = { success: [] as string[], failed: [] as string[] };
 
   for (const name of projects) {
+    // Skip pre-built projects (they're built locally and committed)
+    if (PREBUILT_PROJECTS.includes(name)) {
+      log(`Skipping ${name} (pre-built locally)`, "info");
+      continue;
+    }
+
     try {
       buildProject(name);
       results.success.push(name);

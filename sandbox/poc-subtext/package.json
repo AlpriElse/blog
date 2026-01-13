@@ -1,11 +1,11 @@
 {
-  "name": "poc-reverse-storytelling",
+  "name": "poc-subtext",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && NODE_OPTIONS='--max-old-space-size=4096' vite build && cp -r dist/* ../../public/sandbox/poc-subtext/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
