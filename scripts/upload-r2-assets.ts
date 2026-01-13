@@ -38,7 +38,7 @@ const CONFIG = {
   // Public URL for your R2 bucket
   publicUrl: "https://r2.alprielse.xyz",
 
-  // File patterns to consider for R2 upload
+  // File patterns to consider for R2 upload (used with size threshold)
   patterns: ["**/*.mp4", "**/*.mov", "**/*.webm", "**/*.zip"],
 
   // Directories to search for large files (only source dirs, not build outputs)
@@ -49,6 +49,10 @@ const CONFIG = {
 
   // Files larger than this (in MB) will be uploaded to R2
   thresholdMb: 20,
+
+  // Marker file name - if a directory contains this file, all files in that
+  // directory will be uploaded to R2 (regardless of size/pattern filters)
+  markerFile: ".r2",
 
   // Where to save the manifest (maps local paths to R2 URLs)
   manifestPath: join(ROOT_DIR, "r2-manifest.json"),
@@ -138,6 +142,47 @@ function walkDir(dir: string, extensions: Set<string>, results: string[]): void 
   }
 }
 
+// Find directories containing the .r2 marker file and collect all files from them
+function findMarkedDirectories(): { path: string; size: number }[] {
+  const files: { path: string; size: number }[] = [];
+
+  function walkForMarker(dir: string): void {
+    if (!existsSync(dir)) return;
+
+    const entries = readdirSync(dir, { withFileTypes: true });
+    const hasMarker = entries.some(e => e.isFile() && e.name === CONFIG.markerFile);
+
+    if (hasMarker) {
+      // This directory has .r2 marker - collect all files (not recursively into subdirs)
+      for (const entry of entries) {
+        if (entry.isFile() && entry.name !== CONFIG.markerFile) {
+          const fullPath = join(dir, entry.name);
+          const relativePath = relative(ROOT_DIR, fullPath);
+          try {
+            const stats = statSync(fullPath);
+            files.push({ path: relativePath, size: stats.size });
+          } catch {
+            // Skip files we can't stat
+          }
+        }
+      }
+    }
+
+    // Continue walking subdirectories (to find other marked dirs)
+    for (const entry of entries) {
+      if (entry.isDirectory() && entry.name !== "node_modules") {
+        walkForMarker(join(dir, entry.name));
+      }
+    }
+  }
+
+  for (const dir of CONFIG.searchDirs) {
+    walkForMarker(join(ROOT_DIR, dir));
+  }
+
+  return files;
+}
+
 function findLargeFiles(): { path: string; size: number }[] {
   const files: { path: string; size: number }[] = [];
   const thresholdBytes = CONFIG.thresholdMb * 1024 * 1024;
@@ -216,22 +261,48 @@ function main(): void {
     }
   }
 
-  // Find large files
+  // Find files to upload from both sources
   const largeFiles = findLargeFiles();
+  const markedFiles = findMarkedDirectories();
 
-  if (largeFiles.length === 0) {
-    log(`No files found exceeding ${CONFIG.thresholdMb} MB threshold`, "info");
+  // Merge and deduplicate (marked files take precedence)
+  const seenPaths = new Set<string>();
+  const allFiles: { path: string; size: number; source: "large" | "marked" }[] = [];
+
+  for (const file of markedFiles) {
+    seenPaths.add(file.path);
+    allFiles.push({ ...file, source: "marked" });
+  }
+  for (const file of largeFiles) {
+    if (!seenPaths.has(file.path)) {
+      allFiles.push({ ...file, source: "large" });
+    }
+  }
+
+  if (allFiles.length === 0) {
+    log(`No files found (no .r2 markers or files exceeding ${CONFIG.thresholdMb} MB)`, "info");
     return;
   }
 
-  log(
-    `Found ${largeFiles.length} file(s) exceeding ${CONFIG.thresholdMb} MB:\n`,
-    "info"
-  );
-  for (const file of largeFiles) {
-    console.log(`  • ${file.path} (${formatSize(file.size)})`);
+  // Group files by source for display
+  const fromMarkers = allFiles.filter(f => f.source === "marked");
+  const fromSize = allFiles.filter(f => f.source === "large");
+
+  if (fromMarkers.length > 0) {
+    log(`Found ${fromMarkers.length} file(s) from .r2 marked directories:\n`, "info");
+    for (const file of fromMarkers) {
+      console.log(`  • ${file.path} (${formatSize(file.size)})`);
+    }
+    console.log();
   }
-  console.log();
+
+  if (fromSize.length > 0) {
+    log(`Found ${fromSize.length} file(s) exceeding ${CONFIG.thresholdMb} MB:\n`, "info");
+    for (const file of fromSize) {
+      console.log(`  • ${file.path} (${formatSize(file.size)})`);
+    }
+    console.log();
+  }
 
   // Load existing manifest
   const manifest = loadManifest();
@@ -239,7 +310,7 @@ function main(): void {
   // Upload files
   const results = { uploaded: 0, skipped: 0, failed: 0 };
 
-  for (const file of largeFiles) {
+  for (const file of allFiles) {
     // Skip if already in manifest (unless --force)
     if (manifest[file.path] && !force) {
       log(`Skipping (already uploaded): ${file.path}`, "info");

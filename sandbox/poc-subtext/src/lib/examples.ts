@@ -3,13 +3,22 @@ import type { VideoManifest } from '../types'
 // Get the base path from Vite's import.meta.env
 const BASE_PATH = import.meta.env.BASE_URL || '/'
 
-// R2 base URL for large assets (videos are served from R2 to avoid Cloudflare Pages size limits)
+// R2 base URL for large assets (videos and screenshots are served from R2 to avoid Cloudflare Pages size limits and Git LFS issues)
 const R2_BASE_URL = 'https://r2.alprielse.xyz'
+
+// Get the R2 base path for an example's assets
+function getR2ExamplePath(exampleBasePath: string): string {
+  return `${R2_BASE_URL}/sandbox/poc-subtext/public${exampleBasePath}`
+}
 
 // Get video URL from R2
 function getVideoUrl(exampleBasePath: string): string {
-  // Videos are stored in R2 at: sandbox/poc-subtext/public/examples/<id>/video.mp4
-  return `${R2_BASE_URL}/sandbox/poc-subtext/public${exampleBasePath}/video.mp4`
+  return `${getR2ExamplePath(exampleBasePath)}/video.mp4`
+}
+
+// Get screenshot URL from R2
+function getScreenshotUrl(exampleBasePath: string, filename: string): string {
+  return `${getR2ExamplePath(exampleBasePath)}/screenshots/${filename}`
 }
 
 export interface Example {
@@ -71,11 +80,11 @@ export async function loadExample(example: Example): Promise<LoadedExample> {
   }
   const videoBlob = await videoResponse.blob()
 
-  // Load screenshot images and convert to dataUrls
+  // Load screenshot images from R2 and convert to dataUrls
   const screenshotsWithDataUrls = await Promise.all(
     manifest.screenshots.map(async (screenshot) => {
       try {
-        const imgResponse = await fetch(`${fullBasePath}/screenshots/${screenshot.filename}`)
+        const imgResponse = await fetch(getScreenshotUrl(example.basePath, screenshot.filename))
         if (imgResponse.ok) {
           const blob = await imgResponse.blob()
           const dataUrl = await blobToDataUrl(blob)
