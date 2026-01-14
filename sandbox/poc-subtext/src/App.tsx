@@ -20,6 +20,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null)
   const [currentVideoName, setCurrentVideoName] = useState<string>('')
+  const [isLoadingExample, setIsLoadingExample] = useState(false)
 
   const workerRef = useRef<Worker | null>(null)
   const transcriptResolveRef = useRef<((segments: TranscriptSegment[]) => void) | null>(null)
@@ -197,23 +198,24 @@ function App() {
 
     setScreen('processing')
     setError(null)
-    setProcessingStage('loading-model')
+    setIsLoadingExample(true)
+    setProcessingStage('idle')
     setProcessingProgress(0)
 
     try {
-      setProcessingProgress(10)
       const { manifest: exampleManifest, videoBlob } = await loadExample(example)
-      setProcessingProgress(80)
 
       const url = URL.createObjectURL(videoBlob)
       setVideoUrl(url)
       setManifest(exampleManifest)
       setCurrentVideoId(exampleId)
       setCurrentVideoName(example.name)
+      setIsLoadingExample(false)
       setProcessingStage('complete')
       setProcessingProgress(100)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load example')
+      setIsLoadingExample(false)
       setProcessingStage('idle')
     }
   }, [])
@@ -272,6 +274,7 @@ function App() {
         processingProgress={processingProgress}
         onViewResults={handleViewResults}
         error={error}
+        isLoadingExample={isLoadingExample}
       />
     )
   }

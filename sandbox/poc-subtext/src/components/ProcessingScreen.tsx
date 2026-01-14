@@ -8,6 +8,7 @@ interface ProcessingScreenProps {
   processingProgress: number
   onViewResults: () => void
   error: string | null
+  isLoadingExample?: boolean
 }
 
 function getStageLabel(stage: ProcessingStage): string {
@@ -38,6 +39,7 @@ export function ProcessingScreen({
   processingProgress,
   onViewResults,
   error,
+  isLoadingExample,
 }: ProcessingScreenProps) {
   const isComplete = processingStage === 'complete'
 
@@ -56,6 +58,20 @@ export function ProcessingScreen({
             <div className="error-icon">!</div>
             <h2>Processing Failed</h2>
             <p>{error}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Simple loading UI for examples
+  if (isLoadingExample) {
+    return (
+      <div className="processing-screen">
+        <div className="processing-container">
+          <div className="example-loading">
+            <div className="loading-spinner" />
+            <p>Loading example (this may take a minute)...</p>
           </div>
         </div>
       </div>
