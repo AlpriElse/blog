@@ -17,7 +17,8 @@ export interface VideoMetadata {
 export async function loadVideoMetadata(file: File): Promise<{ video: HTMLVideoElement; metadata: VideoMetadata }> {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video')
-    video.preload = 'metadata'
+    // Safari needs preload='auto' to actually load video data beyond metadata
+    video.preload = 'auto'
     video.muted = true
     video.playsInline = true
 

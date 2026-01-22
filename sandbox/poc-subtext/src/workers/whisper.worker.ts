@@ -109,6 +109,10 @@ self.onmessage = async (e: MessageEvent) => {
     try {
       const audio = e.data.audio as Float32Array
 
+      if (!audio || audio.length === 0) {
+        throw new Error('Invalid audio data received')
+      }
+
       self.postMessage({ type: 'progress', progress: 0, stage: 'Transcribing...' })
 
       // Enable word-level timestamps for more accurate sync

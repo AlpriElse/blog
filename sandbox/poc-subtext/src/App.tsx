@@ -29,9 +29,15 @@ function App() {
 
   // Initialize worker and preload model on mount
   useEffect(() => {
-    const worker = new Worker(new URL('./workers/whisper.worker.ts', import.meta.url), {
-      type: 'module',
-    })
+    let worker: Worker
+    try {
+      worker = new Worker(new URL('./workers/whisper.worker.ts', import.meta.url), {
+        type: 'module',
+      })
+    } catch (error) {
+      setError(`Failed to initialize transcription worker: ${error}`)
+      return
+    }
 
     worker.onmessage = (e: MessageEvent<WhisperWorkerMessage>) => {
       const { type } = e.data
@@ -57,12 +63,30 @@ function App() {
       }
     }
 
+    worker.onerror = (error) => {
+      console.error('Worker error:', error)
+      setError('Transcription worker encountered an error. Please refresh and try again.')
+    }
+
     workerRef.current = worker
 
     // Start loading model immediately
     worker.postMessage({ type: 'load' })
 
+    // Timeout to detect if worker never responds (Safari compatibility issue)
+    const workerHealthCheck = setTimeout(() => {
+      if (!modelLoadedRef.current) {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+        if (isSafari) {
+          setError('Safari compatibility issue: Transcription model failed to load. Try using Chrome or Firefox.')
+        } else {
+          setError('Transcription model failed to load. Please refresh and try again.')
+        }
+      }
+    }, 10000)
+
     return () => {
+      clearTimeout(workerHealthCheck)
       worker.terminate()
     }
   }, [])
@@ -83,13 +107,51 @@ function App() {
         setProcessingStage('extracting-audio')
         const { video, metadata } = await loadVideoMetadata(file)
 
-        // Wait for video to be fully loaded for seeking
+        // Wait for video to be fully loaded for seeking (Safari compatibility)
         await new Promise<void>((resolve) => {
           if (video.readyState >= 3) {
             resolve()
-          } else {
-            video.oncanplay = () => resolve()
+            return
           }
+
+          let resolved = false
+          const handleReady = () => {
+            if (resolved) return
+            if (video.readyState >= 3) {
+              resolved = true
+              resolve()
+            }
+          }
+
+          // Listen to multiple events for Safari compatibility
+          video.addEventListener('canplay', handleReady)
+          video.addEventListener('canplaythrough', handleReady)
+          video.addEventListener('loadeddata', handleReady)
+
+          // Safari timeout fallback
+          const timeout = setTimeout(() => {
+            if (!resolved) {
+              resolved = true
+              resolve()
+            }
+          }, 3000)
+
+          // Cleanup
+          const cleanup = () => {
+            clearTimeout(timeout)
+            video.removeEventListener('canplay', handleReady)
+            video.removeEventListener('canplaythrough', handleReady)
+            video.removeEventListener('loadeddata', handleReady)
+          }
+
+          const originalResolve = resolve
+          resolve = () => {
+            cleanup()
+            originalResolve()
+          }
+
+          // Explicitly trigger loading for Safari
+          video.load()
         })
 
         // Extract audio for transcription
@@ -118,8 +180,26 @@ function App() {
         setProcessingProgress(20)
 
         const transcript = await new Promise<TranscriptSegment[]>((resolve, reject) => {
-          transcriptResolveRef.current = resolve
-          transcriptRejectRef.current = reject
+          // Timeout for transcription
+          const timeout = setTimeout(() => {
+            if (transcriptRejectRef.current) {
+              transcriptRejectRef.current(new Error('Transcription timed out after 5 minutes. This may be a browser compatibility issue.'))
+              transcriptResolveRef.current = null
+              transcriptRejectRef.current = null
+            }
+          }, 5 * 60 * 1000)
+
+          // Wrap resolve/reject to clear timeout
+          transcriptResolveRef.current = (segments) => {
+            clearTimeout(timeout)
+            resolve(segments)
+          }
+          transcriptRejectRef.current = (error) => {
+            clearTimeout(timeout)
+            reject(error)
+          }
+
+          // Don't use transfer list for Safari compatibility
           workerRef.current?.postMessage({ type: 'transcribe', audio: audioData })
         })
 

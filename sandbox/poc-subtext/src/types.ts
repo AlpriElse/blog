@@ -66,11 +66,18 @@ export interface WorkerErrorMessage {
   error: string
 }
 
+export interface WorkerLogMessage {
+  type: 'log'
+  message: string
+  level: 'log' | 'error' | 'warn'
+}
+
 export type WhisperWorkerMessage =
   | WorkerProgressMessage
   | WorkerReadyMessage
   | WorkerResultMessage
   | WorkerErrorMessage
+  | WorkerLogMessage
 
 export interface WhisperWorkerCommand {
   type: 'load' | 'transcribe'
