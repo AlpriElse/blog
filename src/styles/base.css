@@ -67,8 +67,7 @@
     font-family: "Space Mono", monospace;
   }
 
-  section,
-  footer {
+  section {
     @apply mx-auto max-w-3xl px-4;
   }
   a {
@@ -76,7 +75,7 @@
     focus-visible:no-underline focus-visible:outline-dashed;
   }
   p {
-    line-height: 2.4rem;
+    line-height: 2.2rem;
   }
   svg {
     @apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
@@ -195,5 +194,226 @@
   }
   .focus-outline {
     @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
+  }
+
+  /* 12-column post layout. Stacks below md.
+     md: 2 empty / 8 text / 2 empty
+     lg: 1 empty / 10 text / 1 empty
+     xl: 3 empty / 6 text / 3 empty
+     Use <div class="row"> for custom spans. */
+  .post-page {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    padding-bottom: 3rem;
+  }
+
+  .post-page > .post-lede {
+    padding-top: 2rem;
+  }
+
+  #article.prose > .row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-block: 1.5rem;
+  }
+
+  #article.prose > .row > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  #article.prose .row img {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
+  #article .youtube-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-block: 1.5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 2px solid rgb(var(--color-border));
+    background-color: rgb(var(--color-card));
+  }
+
+  #article .youtube-frame::before {
+    content: "YouTube";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgb(var(--color-text-base));
+    opacity: 0.4;
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  #article .youtube-frame iframe,
+  #article iframe[src*="youtube.com"],
+  #article iframe[src*="youtu.be"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  #article iframe[src*="youtube.com"]:not(.youtube-frame iframe),
+  #article iframe[src*="youtu.be"]:not(.youtube-frame iframe) {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    margin-block: 1.5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 2px solid rgb(var(--color-border));
+    background-color: rgb(var(--color-card));
+  }
+
+  #article .youtube-frame iframe {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .post-page {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1rem;
+    }
+
+    .post-page > .post-lede,
+    .post-page > .post-meta {
+      grid-column: 3 / span 8;
+    }
+
+    .post-page > #article {
+      grid-column: 1 / -1;
+    }
+
+    #article.prose {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1rem;
+    }
+
+    #article.prose > * {
+      grid-column: 3 / span 8;
+    }
+
+    #article.prose > .row {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1rem;
+      row-gap: 1rem;
+      align-items: start;
+    }
+
+    #article.prose > .row > * {
+      grid-column: auto;
+    }
+
+    .col-span-1 {
+      grid-column-end: span 1;
+    }
+    .col-span-2 {
+      grid-column-end: span 2;
+    }
+    .col-span-3 {
+      grid-column-end: span 3;
+    }
+    .col-span-4 {
+      grid-column-end: span 4;
+    }
+    .col-span-5 {
+      grid-column-end: span 5;
+    }
+    .col-span-6 {
+      grid-column-end: span 6;
+    }
+    .col-span-7 {
+      grid-column-end: span 7;
+    }
+    .col-span-8 {
+      grid-column-end: span 8;
+    }
+    .col-span-9 {
+      grid-column-end: span 9;
+    }
+    .col-span-10 {
+      grid-column-end: span 10;
+    }
+    .col-span-11 {
+      grid-column-end: span 11;
+    }
+    .col-span-12 {
+      grid-column-end: span 12;
+    }
+
+    .col-start-1 {
+      grid-column-start: 1;
+    }
+    .col-start-2 {
+      grid-column-start: 2;
+    }
+    .col-start-3 {
+      grid-column-start: 3;
+    }
+    .col-start-4 {
+      grid-column-start: 4;
+    }
+    .col-start-5 {
+      grid-column-start: 5;
+    }
+    .col-start-6 {
+      grid-column-start: 6;
+    }
+    .col-start-7 {
+      grid-column-start: 7;
+    }
+    .col-start-8 {
+      grid-column-start: 8;
+    }
+    .col-start-9 {
+      grid-column-start: 9;
+    }
+    .col-start-10 {
+      grid-column-start: 10;
+    }
+    .col-start-11 {
+      grid-column-start: 11;
+    }
+    .col-start-12 {
+      grid-column-start: 12;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .post-page > .post-lede,
+    .post-page > .post-meta {
+      grid-column: 2 / span 10;
+    }
+
+    #article.prose > * {
+      grid-column: 2 / span 10;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .post-page > .post-lede,
+    .post-page > .post-meta {
+      grid-column: 4 / span 6;
+    }
+
+    #article.prose > * {
+      grid-column: 4 / span 6;
+    }
   }
 }

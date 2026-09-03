@@ -7,23 +7,27 @@ import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
 import Card from "@components/Card";
 import { SITE } from "@config";
+import { POST_SECTIONS, type PostSection } from "@utils/postSections.ts";
 
 export interface Props {
   currentPage: number;
   totalPages: number;
   paginatedPosts: CollectionEntry<"blog" | "blog-fixtures">[];
+  section: PostSection;
 }
 
-const { currentPage, totalPages, paginatedPosts } = Astro.props;
+const { currentPage, totalPages, paginatedPosts, section } = Astro.props;
+const { slug, title, desc } = POST_SECTIONS[section];
+const basePath = `/${slug}`;
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
-  <Header activeNav="posts" />
-  <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
+<Layout title={`${title} | ${SITE.title}`}>
+  <Header activeNav={section} />
+  <Main pageTitle={title} pageDesc={desc} hideBreadcrumbs>
     <ul>
       {
-        paginatedPosts.map(({ data, slug }) => (
-          <Card href={`/posts/${slug}/`} frontmatter={data} />
+        paginatedPosts.map(({ data, slug: postSlug }) => (
+          <Card href={`/posts/${postSlug}/`} frontmatter={data} />
         ))
       }
     </ul>
@@ -32,8 +36,10 @@ const { currentPage, totalPages, paginatedPosts } = Astro.props;
   <Pagination
     {currentPage}
     {totalPages}
-    prevUrl={`/posts${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}/`}
-    nextUrl={`/posts/${currentPage + 1}/`}
+    prevUrl={`${basePath}${
+      currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""
+    }/`}
+    nextUrl={`${basePath}/${currentPage + 1}/`}
   />
 
   <Footer noMarginTop={totalPages > 1} />

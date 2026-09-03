@@ -1,5 +1,4 @@
 ---
-import Hr from "./Hr.astro";
 import Socials from "./Socials.astro";
 import StyledLink from "./StyledLink.astro";
 
@@ -13,17 +12,22 @@ const { noMarginTop = false } = Astro.props;
 ---
 
 <footer class={`${noMarginTop ? "" : "mt-auto"}`}>
-  <Hr noPadding />
-  <div class="footer-wrapper">
-    <Socials centered />
-    <div class="copyright-wrapper">
-      <span>Copyright &#169; {currentYear}</span>
-      <span class="separator">&nbsp;|&nbsp;</span>
-      <span
-        >Website built with <StyledLink
-          href="https://github.com/satnaing/astro-paper">astro-paper</StyledLink
-        ></span
-      >
+  <div class="footer-container">
+    <div class="footer-inner">
+      <hr class="border-skin-line" aria-hidden="true" />
+      <div class="footer-wrapper">
+        <Socials centered />
+        <div class="copyright-wrapper">
+          <span>Copyright &#169; {currentYear}</span>
+          <span class="separator">&nbsp;|&nbsp;</span>
+          <span
+            >Website built with <StyledLink
+              href="https://github.com/satnaing/astro-paper"
+              >astro-paper</StyledLink
+            ></span
+          >
+        </div>
+      </div>
     </div>
   </div>
 </footer>
@@ -31,6 +35,15 @@ const { noMarginTop = false } = Astro.props;
 <style>
   footer {
     @apply w-full;
+  }
+  .footer-container {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  .footer-inner {
+    width: 100%;
   }
   .footer-wrapper {
     @apply flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4;
@@ -47,5 +60,17 @@ const { noMarginTop = false } = Astro.props;
   }
   .separator {
     @apply hidden sm:inline;
+  }
+
+  @media (min-width: 1024px) {
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1rem;
+    }
+
+    .footer-inner {
+      grid-column: 2 / span 10;
+    }
   }
 </style>

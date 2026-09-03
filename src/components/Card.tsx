@@ -1,5 +1,4 @@
 import { slugifyStr } from "@utils/slugify";
-import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
 
 export interface Props {
@@ -8,8 +7,14 @@ export interface Props {
   secHeading?: boolean;
 }
 
+const formatDate = (value: string | Date) =>
+  new Date(value).toISOString().slice(0, 10);
+
 export default function Card({ href, frontmatter, secHeading = true }: Props) {
-  const { title, pubDatetime, modDatetime, description } = frontmatter;
+  const { title, pubDatetime, modDatetime, tags } = frontmatter;
+  const displayDate = formatDate(
+    modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime
+  );
 
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
@@ -20,7 +25,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
     <li className="my-6">
       <a
         href={href}
-        className="inline-block text-lg font-semibold text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+        className="block text-lg font-semibold text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         {secHeading ? (
           <h2 {...headerProps}>{title}</h2>
@@ -28,10 +33,15 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
           <h3 {...headerProps}>{title}</h3>
         )}
       </a>
-      <span className="text-sm text-gray-500 m-1 front-light italic">
-        {frontmatter.tags.map(tag => `#${tag}`).join(", ")}
-      </span>
-      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
+      <p className="mt-1 text-sm italic text-skin-base/70">
+        <time dateTime={displayDate}>{displayDate}</time>
+        {tags.length > 0 && (
+          <>
+            {" ; "}
+            {tags.map(tag => `#${tag}`).join(", ")}
+          </>
+        )}
+      </p>
     </li>
   );
 }
