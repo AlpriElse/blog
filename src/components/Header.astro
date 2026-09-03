@@ -1,10 +1,9 @@
 ---
 import { LOGO_IMAGE, SITE } from "@config";
-import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
 
 export interface Props {
-  activeNav?: "posts" | "tags" | "search";
+  activeNav?: "technical-writing" | "life" | "tags" | "search";
 }
 
 const { activeNav } = Astro.props;
@@ -59,11 +58,16 @@ const { activeNav } = Astro.props;
             (
               <>
                 <li>
+                  <a href="/life/" class={activeNav === "life" ? "active" : ""}>
+                    Life
+                  </a>
+                </li>
+                <li>
                   <a
-                    href="/posts/"
-                    class={activeNav === "posts" ? "active" : ""}
+                    href="/technical-writing/"
+                    class={activeNav === "technical-writing" ? "active" : ""}
                   >
-                    Posts
+                    Technical Writing
                   </a>
                 </li>
                 <li>
@@ -111,7 +115,6 @@ const { activeNav } = Astro.props;
       </nav>
     </div>
   </div>
-  <Hr />
 </header>
 
 <style>
@@ -119,14 +122,16 @@ const { activeNav } = Astro.props;
     @apply absolute -top-full left-16 z-50 bg-skin-accent px-3 py-2 text-skin-inverted transition-all focus:top-4;
   }
   header {
-    @apply sticky top-0 z-40 bg-skin-fill;
-    transition: background-color 0.3s ease;
+    @apply sticky top-0 z-40;
   }
   .nav-container {
-    @apply mx-auto flex max-w-5xl flex-col items-center justify-between sm:flex-row;
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
   }
   .top-nav-wrap {
-    @apply relative flex w-full items-start justify-between p-4 sm:items-center sm:py-8;
+    @apply relative flex w-full items-start justify-between py-4 sm:items-center sm:py-8;
   }
   .logo {
     @apply absolute py-1 text-xl font-semibold sm:static sm:text-2xl;
@@ -158,7 +163,7 @@ const { activeNav } = Astro.props;
     @apply col-span-1;
   }
   nav a.active {
-    @apply underline decoration-wavy decoration-2 underline-offset-4;
+    @apply underline decoration-solid decoration-2 underline-offset-4;
   }
   nav a.active svg {
     @apply fill-skin-accent;
@@ -188,6 +193,18 @@ const { activeNav } = Astro.props;
   }
   .menu-icon.is-active .close {
     @apply opacity-100;
+  }
+
+  @media (min-width: 1024px) {
+    .nav-container {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1rem;
+    }
+
+    .top-nav-wrap {
+      grid-column: 2 / span 10;
+    }
   }
 </style>
 

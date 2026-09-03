@@ -14,7 +14,9 @@ Quite frankly, I have plenty of personal projects that have been left unfinished
 
 But, for personal projects, your greatest "Great Filter" is finishing your project. While Joey directly thinks of Great Filters through the lens of Personal Projects, its perspective aligns well with the context of building a startup and bringing a new product to market.
 
+<div class="youtube-frame">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4jgTCayWlwc?si=4YFd6elqSyxHpFDH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 Joey focuses on Personal Projects; now working on a product I'm building as a business from scratch, and the same existence filter applies.
 
@@ -24,7 +26,9 @@ In a startup, no one cares you're not using the most scalable framework or that 
 
 Before watching this video, I thought CS Theory research was an exercise of memorizing and learning as much CS Theory and math so you can magically peer through patterns to expertly navigate your proof. There's some of that for sure. But, for a lot of theory problems, you don't need to memorize everything. You can brute force subproblems with online tools and just pretend like you knew that obscure piece of math knowledge the whole time when you write your research paper.
 
+<div class="youtube-frame">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qP4XEZ54eSc?si=XbUw4dJPX3AAPUh8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 Building software for a new product is similar. You don't need to hand-build a component framework or directly write every SQL query. There are libraries and tools that exist that speed up this process.
 

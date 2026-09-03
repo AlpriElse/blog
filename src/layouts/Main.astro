@@ -4,21 +4,24 @@ import Breadcrumbs from "@components/Breadcrumbs.astro";
 interface StringTitleProp {
   pageTitle: string;
   pageDesc?: string;
+  hideBreadcrumbs?: boolean;
 }
 
 interface ArrayTitleProp {
   pageTitle: [string, string];
   titleTransition: string;
   pageDesc?: string;
+  hideBreadcrumbs?: boolean;
 }
 
 export type Props = StringTitleProp | ArrayTitleProp;
 
 const { props } = Astro;
+const hideBreadcrumbs = props.hideBreadcrumbs ?? false;
 ---
 
-<Breadcrumbs />
-<main id="main-content">
+{!hideBreadcrumbs && <Breadcrumbs />}
+<main id="main-content" class={hideBreadcrumbs ? "pt-8" : ""}>
   {
     "titleTransition" in props ? (
       <h1>
@@ -31,7 +34,7 @@ const { props } = Astro;
       <h1>{props.pageTitle}</h1>
     )
   }
-  <p>{props.pageDesc}</p>
+  <p class={hideBreadcrumbs ? "not-italic" : ""}>{props.pageDesc}</p>
   <slot />
 </main>
 
@@ -44,5 +47,8 @@ const { props } = Astro;
   }
   #main-content p {
     @apply mb-6 mt-2 italic;
+  }
+  #main-content p.not-italic {
+    font-style: normal;
   }
 </style>

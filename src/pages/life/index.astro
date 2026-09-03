@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+import Posts from "@layouts/Posts.astro";
+import getPostsBySection from "@utils/getPostsBySection.ts";
+import getPagination from "@utils/getPagination.ts";
+
+const posts = await getCollection("blog");
+const sectionPosts = getPostsBySection(posts, "life");
+
+const pagination = getPagination({
+  posts: sectionPosts,
+  page: 1,
+  isIndex: true,
+});
+---
+
+<Posts {...pagination} section="life" />

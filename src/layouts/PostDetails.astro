@@ -2,8 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Tag from "@components/Tag.astro";
-import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import ShareLinks from "@components/ShareLinks.astro";
@@ -28,6 +26,12 @@ const {
 
 const { Content } = await post.render();
 
+const displayDate = new Date(
+  modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime
+)
+  .toISOString()
+  .slice(0, 10);
+
 const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
 const ogUrl = new URL(
   ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
@@ -47,59 +51,39 @@ const layoutProps = {
 ---
 
 <Layout {...layoutProps}>
-  <Header />
+  <Header
+    activeNav={post.data.section === "life" ? "life" : "technical-writing"}
+  />
 
   <!-- <div class="progress-container fixed top-0 z-100 h-1 w-full bg-skin-fill">
     <div class="progress-bar h-1 w-0 bg-skin-accent" id="myBar"></div>
   </div> -->
 
-  <div class="flex w-full md:mx-auto md:max-w-4xl justify-start px-2">
-    <button
-      class="focus-outline mb-2 mt-8 flex hover:opacity-75"
-      onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg"
-        ><path
-          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-        ></path>
-      </svg><span>Go back</span>
-    </button>
-  </div>
-  <main id="main-content" class="w-full md:mx-auto md:max-w-4xl px-4 pb-12">
-    <h1 transition:name={slugifyStr(title)} class="post-title">{title}</h1>
-    <Datetime
-      pubDatetime={pubDatetime}
-      modDatetime={modDatetime}
-      size="lg"
-      className="my-2"
-    />
-    <article
-      id="article"
-      role="article"
-      class="prose mt-8 max-w-none md:mx-auto md:max-w-4xl"
-    >
+  <main id="main-content" class="post-page">
+    <div class="post-lede">
+      <h1 transition:name={slugifyStr(title)} class="post-title">{title}</h1>
+      <p class="post-lede-meta">
+        <time datetime={displayDate}>{displayDate}</time>
+        {
+          tags.length > 0 && (
+            <>
+              {" ; "}
+              {tags.map((tag, i) => (
+                <>
+                  {i > 0 && ", "}
+                  <a href={`/tags/${slugifyStr(tag)}/`}>#{tag}</a>
+                </>
+              ))}
+            </>
+          )
+        }
+      </p>
+    </div>
+    <article id="article" role="article" class="prose mt-8 max-w-none">
       <Content />
     </article>
 
-    <ul class="my-8">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} />)}
-    </ul>
-
-    <div
-      class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
-    >
-      <button
-        id="back-to-top"
-        class="focus-outline whitespace-nowrap py-1 hover:opacity-75"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="rotate-90">
-          <path
-            d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-          ></path>
-        </svg>
-        <span>Back to Top</span>
-      </button>
-
+    <div class="post-meta">
       <ShareLinks />
     </div>
   </main>
@@ -133,6 +117,14 @@ const layoutProps = {
 <style>
   .post-title {
     @apply text-2xl font-semibold text-skin-accent;
+  }
+
+  .post-lede-meta {
+    @apply mt-1 text-left text-sm italic text-skin-base/70;
+  }
+
+  .post-lede-meta a {
+    @apply text-skin-base/70 no-underline hover:text-skin-accent;
   }
 
   /* Lightbox styles */
@@ -296,15 +288,21 @@ const layoutProps = {
   }
   attachCopyButtons();
 
-  /** Scrolls the document to the top when
-   * the "Back to Top" button is clicked. */
-  function backToTop() {
-    document.querySelector("#back-to-top")?.addEventListener("click", () => {
-      document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    });
+  function wrapYouTubeEmbeds() {
+    const article = document.getElementById("article");
+    if (!article) return;
+
+    article
+      .querySelectorAll('iframe[src*="youtube.com"], iframe[src*="youtu.be"]')
+      .forEach(iframe => {
+        if (iframe.parentElement?.classList.contains("youtube-frame")) return;
+        const frame = document.createElement("div");
+        frame.className = "youtube-frame";
+        iframe.parentNode?.insertBefore(frame, iframe);
+        frame.appendChild(iframe);
+      });
   }
-  backToTop();
+  wrapYouTubeEmbeds();
 
   /** Lightbox functionality for article images */
   function initLightbox() {
