@@ -5,6 +5,7 @@ interface StringTitleProp {
   pageTitle: string;
   pageDesc?: string;
   hideBreadcrumbs?: boolean;
+  matchNavWidth?: boolean;
 }
 
 interface ArrayTitleProp {
@@ -12,35 +13,45 @@ interface ArrayTitleProp {
   titleTransition: string;
   pageDesc?: string;
   hideBreadcrumbs?: boolean;
+  matchNavWidth?: boolean;
 }
 
 export type Props = StringTitleProp | ArrayTitleProp;
 
 const { props } = Astro;
 const hideBreadcrumbs = props.hideBreadcrumbs ?? false;
+const matchNavWidth = props.matchNavWidth ?? false;
 ---
 
 {!hideBreadcrumbs && <Breadcrumbs />}
-<main id="main-content" class={hideBreadcrumbs ? "pt-8" : ""}>
-  {
-    "titleTransition" in props ? (
-      <h1>
-        {props.pageTitle[0]}
-        <span transition:name={props.titleTransition}>
-          {props.pageTitle[1]}
-        </span>
-      </h1>
-    ) : (
-      <h1>{props.pageTitle}</h1>
-    )
-  }
-  <p class={hideBreadcrumbs ? "not-italic" : ""}>{props.pageDesc}</p>
-  <slot />
+<main
+  id="main-content"
+  class:list={[hideBreadcrumbs && "pt-8", matchNavWidth && "site-shell"]}
+>
+  <div class:list={[matchNavWidth && "site-shell-inner"]}>
+    {
+      "titleTransition" in props ? (
+        <h1>
+          {props.pageTitle[0]}
+          <span transition:name={props.titleTransition}>
+            {props.pageTitle[1]}
+          </span>
+        </h1>
+      ) : (
+        <h1>{props.pageTitle}</h1>
+      )
+    }
+    <p class={hideBreadcrumbs ? "not-italic" : ""}>{props.pageDesc}</p>
+    <slot />
+  </div>
 </main>
 
 <style>
-  #main-content {
+  #main-content:not(.site-shell) {
     @apply mx-auto w-full max-w-3xl px-4 pb-4;
+  }
+  #main-content.site-shell {
+    padding-bottom: 1rem;
   }
   #main-content h1 {
     @apply text-2xl font-semibold sm:text-3xl;

@@ -2,7 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import StyledLink from "@components/StyledLink.astro";
@@ -20,100 +19,109 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
 <Layout>
   <Header />
-  <main id="main-content">
-    <section id="hero">
-      <h1 class="font-black">👋 Hi I'm Alpri</h1>
+  <main id="main-content" class="site-shell">
+    <div class="site-shell-inner">
+      <section id="hero">
+        <h1 class="font-black">👋 Hi I'm Alpri</h1>
+
+        {
+          posts.length !== 0 && (
+            <a
+              target="_blank"
+              href="/rss.xml"
+              class="rss-link"
+              aria-label="rss feed"
+              title="RSS Feed"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon">
+                <>
+                  <path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z" />
+                  <path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z" />
+                  <circle cx="6" cy="18" r="2" />
+                </>
+              </svg>
+              <span class="sr-only">RSS Feed</span>
+            </a>
+          )
+        }
+        <p>
+          I'm a founder building an AI product for building workflow
+          automations. I'm currently interested in the intersection of UX,
+          Compilers, Programming Languages, and Code-generating LLMs.
+        </p>
+        <p>
+          Previously, I worked at HubSpot as a Software Engineer, mostly working
+          on 0-1 projects. While there, I mentored interns, worked on the <StyledLink
+            href="https://developers.hubspot.com/docs/cms/reference/hubl/overview"
+            >HubL</StyledLink
+          > proprietary templating language for the HubSpot CMS, built a language
+          escape hatch for developers to build with React in the HubSpot CMS &#8203;
+          (<StyledLink
+            href="https://developers.hubspot.com/docs/cms/start-building/introduction/react-plus-hubl/overview"
+            >CMS React</StyledLink
+          >), and worked on LLM tool use for <StyledLink
+            href="https://www.hubspot.com/products/artificial-intelligence"
+            >Breeze AI (fka ChatSpot)</StyledLink
+          >.
+        </p>
+        <p>
+          I studied Computer Science at the University of Illinois at
+          Urbana-Champaign (UIUC). Back then, I led the team that built the <StyledLink
+            href="https://github.com/ReflectionsProjections/rp2019"
+            >Reflections | Projections 2019 website</StyledLink
+          >, built the website and app for the Philippine Student Association's
+          FACT Conference, and built multiple failed student-facing products: <StyledLink
+            href="https://github.com/Stutive">Stutive</StyledLink
+          >, <StyledLink href="https://github.com/AlpriElse/schedule-scope"
+            >schedule-scope</StyledLink
+          >, and <StyledLink
+            href="https://github.com/AlpriElse/presenting-illini"
+            >Presenting Illini</StyledLink
+          >.
+        </p>
+        {
+          // only display if at least one social link is enabled
+          socialCount > 0 && (
+            <div class="social-wrapper">
+              <Socials />
+            </div>
+          )
+        }
+      </section>
+
+      <hr class="border-skin-line" aria-hidden="true" />
 
       {
-        posts.length !== 0 && (
-          <a
-            target="_blank"
-            href="/rss.xml"
-            class="rss-link"
-            aria-label="rss feed"
-            title="RSS Feed"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon">
-              <>
-                <path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z" />
-                <path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z" />
-                <circle cx="6" cy="18" r="2" />
-              </>
-            </svg>
-            <span class="sr-only">RSS Feed</span>
-          </a>
+        recentPosts.length > 0 && (
+          <section id="recent-posts">
+            <h2>Recent Posts</h2>
+            <ul>
+              {recentPosts.map(
+                ({ data, slug }, index) =>
+                  index < 10 && (
+                    <Card
+                      href={`/posts/${slug}/`}
+                      frontmatter={data}
+                      secHeading={false}
+                    />
+                  )
+              )}
+            </ul>
+          </section>
         )
       }
-      <p>
-        I'm a founder building an AI product for building workflow automations.
-        I'm currently interested in the intersection of UX, Compilers,
-        Programming Languages, and Code-generating LLMs.
-      </p>
-      <p>
-        Previously, I worked at HubSpot as a Software Engineer, mostly working
-        on 0-1 projects. While there, I mentored interns, worked on the <StyledLink
-          href="https://developers.hubspot.com/docs/cms/reference/hubl/overview"
-          >HubL</StyledLink
-        > proprietary templating language for the HubSpot CMS, built a language escape
-        hatch for developers to build with React in the HubSpot CMS &#8203; (<StyledLink
-          href="https://developers.hubspot.com/docs/cms/start-building/introduction/react-plus-hubl/overview"
-          >CMS React</StyledLink
-        >), and worked on LLM tool use for <StyledLink
-          href="https://www.hubspot.com/products/artificial-intelligence"
-          >Breeze AI (fka ChatSpot)</StyledLink
-        >.
-      </p>
-      <p>
-        I studied Computer Science at the University of Illinois at
-        Urbana-Champaign (UIUC). Back then, I led the team that built the <StyledLink
-          href="https://github.com/ReflectionsProjections/rp2019"
-          >Reflections | Projections 2019 website</StyledLink
-        >, built the website and app for the Philippine Student Association's
-        FACT Conference, and built multiple failed student-facing products: <StyledLink
-          href="https://github.com/Stutive">Stutive</StyledLink
-        >, <StyledLink href="https://github.com/AlpriElse/schedule-scope"
-          >schedule-scope</StyledLink
-        >, and <StyledLink href="https://github.com/AlpriElse/presenting-illini"
-          >Presenting Illini</StyledLink
-        >.
-      </p>
-      {
-        // only display if at least one social link is enabled
-        socialCount > 0 && (
-          <div class="social-wrapper">
-            <Socials />
-          </div>
-        )
-      }
-    </section>
-
-    <Hr />
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts">
-          <h2>Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              ({ data, slug }, index) =>
-                index < 10 && (
-                  <Card
-                    href={`/posts/${slug}/`}
-                    frontmatter={data}
-                    secHeading={false}
-                  />
-                )
-            )}
-          </ul>
-        </section>
-      )
-    }
+    </div>
   </main>
 
   <Footer />
 </Layout>
 
 <style>
+  #main-content :global(section) {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
   /* ===== Hero Section ===== */
   #hero {
     @apply pb-6 pt-8;
