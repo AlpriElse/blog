@@ -8,11 +8,13 @@ import WorkMusicGrid from "@components/WorkMusic";
 
 <Layout
   title={`Work music | ${SITE.title}`}
-  description="A YouTube homepage stand-in for work playlists."
+  description="Music I listen to while working."
 >
   <Header activeNav="work-music" />
   <main id="main-content" class="site-shell work-music-page">
     <div class="site-shell-inner">
+      <h1>Work music</h1>
+      <p class="work-music-tagline">Music I listen to while working.</p>
       <WorkMusicGrid client:load />
     </div>
   </main>
@@ -24,6 +26,12 @@ import WorkMusicGrid from "@components/WorkMusic";
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 2.5rem;
+  }
+  .work-music-page h1 {
+    @apply text-2xl font-semibold sm:text-3xl;
+  }
+  .work-music-tagline {
+    @apply mb-6 mt-2 italic;
   }
 </style>
 
