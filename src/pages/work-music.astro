@@ -3,7 +3,7 @@ import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import WorkMusic from "@components/WorkMusic";
+import WorkMusicGrid from "@components/WorkMusic";
 ---
 
 <Layout
@@ -13,7 +13,7 @@ import WorkMusic from "@components/WorkMusic";
   <Header activeNav="work-music" />
   <main id="main-content" class="site-shell work-music-page">
     <div class="site-shell-inner">
-      <WorkMusic client:load />
+      <WorkMusicGrid client:load />
     </div>
   </main>
   <Footer />
