@@ -1,0 +1,168 @@
+---
+import { SITE } from "@config";
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import WorkMusicGrid from "@components/WorkMusic";
+---
+
+<Layout
+  title={`Work music | ${SITE.title}`}
+  description="A YouTube homepage stand-in for work playlists."
+>
+  <Header activeNav="work-music" />
+  <main id="main-content" class="site-shell work-music-page">
+    <div class="site-shell-inner">
+      <WorkMusicGrid client:load />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .work-music-page {
+    flex: 1;
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
+</style>
+
+<style is:global>
+  .work-music .chip-row {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    scrollbar-width: none;
+  }
+  .work-music .chip-row::-webkit-scrollbar {
+    display: none;
+  }
+  .work-music .chip {
+    flex: 0 0 auto;
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    background: rgb(var(--color-card));
+    color: rgb(var(--color-text-base));
+    border: 1px solid transparent;
+  }
+  .work-music .chip:hover {
+    border-color: rgb(var(--color-accent));
+  }
+  .work-music .chip-active {
+    background: rgb(var(--color-text-base));
+    color: rgb(var(--color-fill));
+  }
+  .work-music .now-playing {
+    margin-bottom: 1.5rem;
+  }
+  .work-music .player-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: #000;
+  }
+  .work-music .player-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .work-music .now-playing-meta {
+    margin-top: 0.75rem;
+  }
+  .work-music .now-playing-meta h2 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+  .work-music .now-playing-meta p {
+    margin: 0.25rem 0 0;
+    line-height: 1.4;
+    opacity: 0.75;
+  }
+  .work-music .video-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 640px) {
+    .work-music .video-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .work-music .video-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1280px) {
+    .work-music .video-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .work-music .video-card {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    text-align: left;
+    gap: 0.65rem;
+  }
+  .work-music .thumb-wrap {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: rgb(var(--color-card));
+  }
+  .work-music .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .work-music .video-card-active .thumb-wrap {
+    outline: 2px solid rgb(var(--color-accent));
+    outline-offset: 2px;
+  }
+  .work-music .now-badge {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background: rgb(var(--color-accent));
+    color: rgb(var(--color-fill));
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.4rem;
+  }
+  .work-music .video-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0 0.15rem;
+  }
+  .work-music .video-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .work-music .video-channel {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+</style>

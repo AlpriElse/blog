@@ -23,7 +23,7 @@ const basePath = `/${slug}`;
 
 <Layout title={`${title} | ${SITE.title}`}>
   <Header activeNav={section} />
-  <Main pageTitle={title} pageDesc={desc} hideBreadcrumbs>
+  <Main pageTitle={title} pageDesc={desc} hideBreadcrumbs matchNavWidth>
     <ul>
       {
         paginatedPosts.map(({ data, slug: postSlug }) => (
