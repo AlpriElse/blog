@@ -221,9 +221,7 @@
   }
 
   /* 12-column post layout. Stacks below md.
-     md: 2 empty / 8 text / 2 empty
-     lg: 1 empty / 10 text / 1 empty
-     xl: 3 empty / 6 text / 3 empty
+     Default text matches the nav: full shell until lg, then 2 empty / 10 text / 2 empty.
      Use <div class="row"> for custom spans. */
   .post-page {
     width: 100%;
@@ -315,7 +313,7 @@
 
     .post-page > .post-lede,
     .post-page > .post-meta {
-      grid-column: 3 / span 8;
+      grid-column: 1 / -1;
     }
 
     .post-page > #article {
@@ -329,7 +327,7 @@
     }
 
     #article.prose > * {
-      grid-column: 3 / span 8;
+      grid-column: 1 / -1;
     }
 
     #article.prose > .row {
@@ -427,17 +425,6 @@
 
     #article.prose > * {
       grid-column: 2 / span 10;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .post-page > .post-lede,
-    .post-page > .post-meta {
-      grid-column: 4 / span 6;
-    }
-
-    #article.prose > * {
-      grid-column: 4 / span 6;
     }
   }
 }
