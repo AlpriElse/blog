@@ -134,6 +134,13 @@ export const WORK_MUSIC_VIDEOS: WorkMusicVideo[] = [
     tags: ["Live Mix", "Bass"],
   },
   {
+    id: "mDtud5fLgFQ",
+    title:
+      "Fred again.. & LATIN MAFIA - Full Mixtape Playback, Palacio De Los Deportes (CDMX, 30th July 2026)",
+    channel: "Fred again . .",
+    tags: ["Live Mix"],
+  },
+  {
     id: "6MAzUT1YhWE",
     title: "Fred again.. - Rooftop Live (Arun's Roof, London)",
     channel: "Fred again . .",
