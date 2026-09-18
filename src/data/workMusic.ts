@@ -188,6 +188,13 @@ export const WORK_MUSIC_VIDEOS: WorkMusicVideo[] = [
     tags: ["Focus", "Soundtrack"],
     start: 920,
   },
+  {
+    id: "djGlyTcW30Q",
+    title:
+      "Minna-no-kimochi (みんなのきもち) | Boiler Room Tokyo: Tohji Presents u-ha",
+    channel: "Boiler Room",
+    tags: ["Live Mix", "Bass"],
+  },
 ];
 
 export function thumbnailUrl(id: string) {
