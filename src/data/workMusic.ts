@@ -188,6 +188,13 @@ export const WORK_MUSIC_VIDEOS: WorkMusicVideo[] = [
     tags: ["Focus", "Soundtrack"],
     start: 920,
   },
+  {
+    id: "uqQREG2zUr0",
+    title: "Ninajirachi | Full Set (live at One Night Stand 2026)",
+    channel: "triple j",
+    tags: ["Live Mix", "Bass"],
+    start: 149,
+  },
 ];
 
 export function thumbnailUrl(id: string) {
