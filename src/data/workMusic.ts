@@ -202,6 +202,12 @@ export const WORK_MUSIC_VIDEOS: WorkMusicVideo[] = [
     tags: ["Live Mix", "Bass"],
     start: 149,
   },
+  {
+    id: "j9EkAYdouyM",
+    title: "Fred again.. HydeFM twitch stream in San Francisco",
+    channel: "fred again rips",
+    tags: ["Live Mix"],
+  },
 ];
 
 export function thumbnailUrl(id: string) {
