@@ -208,6 +208,12 @@ export const WORK_MUSIC_VIDEOS: WorkMusicVideo[] = [
     channel: "fred again rips",
     tags: ["Live Mix"],
   },
+  {
+    id: "zIpUtsZ3xKg",
+    title: "Oxis X Indie Hourzz",
+    channel: "Indie Hourzz",
+    tags: ["Live Mix"],
+  },
 ];
 
 export function thumbnailUrl(id: string) {
