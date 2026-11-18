@@ -208,6 +208,12 @@ export const WORK_MUSIC_VIDEOS: WorkMusicVideo[] = [
     channel: "fred again rips",
     tags: ["Live Mix"],
   },
+  {
+    id: "0XuzM3Ylw6g",
+    title: "연..연... 연니스란 말이죠... mix | house playlist",
+    channel: "sharon loves bigmac",
+    tags: ["Live Mix", "Bass", "Korean"],
+  },
 ];
 
 export function thumbnailUrl(id: string) {
